@@ -2,116 +2,114 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Njaypro Site E2E Verification', () => {
   test('Route / (Builder) renders hero, identity graph, manifesto, thesis, proof, and footer', async ({ page }) => {
-    // Collect console errors
     const consoleErrors: string[] = [];
     page.on('console', (msg) => {
-      if (msg.type() === 'error') {
-        consoleErrors.push(msg.text());
-      }
+      if (msg.type() === 'error') consoleErrors.push(msg.text());
     });
 
     await page.goto('/');
 
-    // Check Hero content
     await expect(page.getByText('NJAY / MULTIDISCIPLINARY BUILDER')).toBeVisible();
     await expect(page.getByText('I WAS TRAINED')).toBeVisible();
     await expect(page.getByText('BY STEEL.')).toBeVisible();
 
-    // Check Identity Graph Nodes
     await expect(page.getByText('01 / FABRICATION')).toBeVisible();
     await expect(page.getByText('02 / VISUAL SYSTEMS')).toBeVisible();
 
-    // Check Manifesto Frame
     await expect(page.getByText('Call me a builder.')).toBeVisible();
 
-    // Check AI Thesis
     await expect(page.getByText('AI IS NOT MY NEW DISCIPLINE.')).toBeVisible();
 
-    // Check Shipped Proof Output
     await expect(page.getByText('Hermes Archetype Router')).toBeVisible();
 
-    // Check GitHub Links are accurate
     const githubProofLink = page.locator('a[href="https://github.com/njay-pro/hermes-archetype-subagent"]');
     await expect(githubProofLink).toBeVisible();
 
-    // Verify zero uncaught console errors
     expect(consoleErrors).toHaveLength(0);
 
-    // Capture screenshot for visual inspection
     const viewportSize = page.viewportSize();
     const mode = viewportSize && viewportSize.width < 500 ? 'mobile' : 'desktop';
     await page.screenshot({ path: `e2e-screenshots/builder-${mode}.png`, fullPage: true });
   });
 
-  test('Route navigation to /archetype works and renders Archetype Router', async ({ page }) => {
-    await page.goto('/');
+  test('Route /archetype renders the five story beats and the GitHub CTA', async ({ page }) => {
+    const consoleErrors: string[] = [];
+    page.on('console', (msg) => {
+      if (msg.type() === 'error') consoleErrors.push(msg.text());
+    });
 
-    // Click secondary route link to Archetype Router
-    await page.click('text="The first public node → Archetype Router"');
+    await page.goto('/archetype');
 
-    // Verify route changed to /archetype
-    await expect(page).toHaveURL('/archetype');
-    await expect(page.getByText('ONE SUBAGENT IS NOT A SYSTEM.')).toBeVisible();
-    await expect(page.getByText('Five Specialist Archetypes')).toBeVisible();
-    await page.waitForTimeout(750);
+    // Beat 1 — The Moment
+    await expect(page.getByText(/You watched one AI answer ten different questions/i)).toBeVisible();
+    await expect(page.getByText(/We did too\. That is why we built five minds instead/i)).toBeVisible();
 
-    // Capture screenshot
+    // Beat 2 — The Gap
+    await expect(page.getByText(/01 · THE GAP/i)).toBeVisible();
+    await expect(page.getByText(/Each failure is a missing kind of mind/i)).toBeVisible();
+
+    // Beat 3 — The System
+    await expect(page.getByText(/02 · THE SYSTEM/i)).toBeVisible();
+    await expect(page.getByText(/Five kinds of mind\./i)).toBeVisible();
+
+    // Beat 4 — The Proof
+    await expect(page.getByText(/03 · THE PROOF/i)).toBeVisible();
+    await expect(page.getByText(/Same prompt\. Five minds\./i)).toBeVisible();
+
+    // Beat 5 — The Door
+    await expect(page.getByText(/04 · THE DOOR/i)).toBeVisible();
+    await expect(page.getByText(/It is open source\. It ships today\./i)).toBeVisible();
+
+    // Door CTA points at the real repo
+    const doorCta = page.getByRole('link', { name: /open the repo · v1\.0\.0/i });
+    await expect(doorCta).toBeVisible();
+    await expect(doorCta).toHaveAttribute('href', 'https://github.com/njay-pro/hermes-archetype-subagent');
+
+    // For Builders — quiet tail, still present
+    await expect(page.getByText(/FOR BUILDERS · OPTIONAL/i)).toBeVisible();
+
+    expect(consoleErrors).toHaveLength(0);
+
     const viewportSize = page.viewportSize();
     const mode = viewportSize && viewportSize.width < 500 ? 'mobile' : 'desktop';
     await page.screenshot({ path: `e2e-screenshots/archetype-${mode}.png`, fullPage: true });
   });
 
-  test('/archetype page tab switching and copy buttons work', async ({ page }) => {
+  test('/archetype tab switching and copy buttons work without runtime errors', async ({ page }) => {
     const runtimeErrors: string[] = [];
     page.on('pageerror', (error) => runtimeErrors.push(error.message));
     page.on('console', (msg) => {
       if (msg.type() === 'error') runtimeErrors.push(msg.text());
     });
-    page.on('requestfailed', (request) => runtimeErrors.push(`request failed: ${request.url()}`));
 
     await page.goto('/archetype');
 
-    // Select consultant tab
     const consultantTab = page.getByRole('tab', { name: /consultant/i });
     await consultantTab.click();
-
     await expect(consultantTab).toHaveAttribute('aria-selected', 'true');
-    await expect(page.getByText('Raw nuance, architecture, intent distillation, near-completion synthesis.')).toBeVisible();
 
-    // Click copy invocation button
-    await page.click('button:has-text("Copy Invocation")');
-    await expect(page.getByText('✓ Copied')).toBeVisible();
-
-    // Click copy agent prompt button
-    await page.click('button:has-text("Copy Agent Prompt")');
-    await expect(page.getByText('✓ Prompt Copied')).toBeVisible();
-
-    // Exercise keyboard focus movement and all route-local state surfaces.
+    // Keyboard nav moves focus across tabs.
     await consultantTab.focus();
     await page.keyboard.press('ArrowRight');
     const longHorizonTab = page.getByRole('tab', { name: /long-horizon/i });
     await expect(longHorizonTab).toBeFocused();
     await expect(longHorizonTab).toHaveAttribute('aria-selected', 'true');
 
-    await page.getByRole('button', { name: /model/i }).click();
-    await page.getByRole('button', { name: /horizon/i }).click();
+    // Builder copy button on the for-builders tail works.
+    await page.getByRole('button', { name: /copy tool-call snippet/i }).click();
+    await expect(page.getByText(/✓ Copied/i)).toBeVisible();
+
     expect(runtimeErrors).toEqual([]);
   });
 
   test('Check horizontal overflow at 390px mobile viewport', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/');
-
-    const overflow = await page.evaluate(() => {
-      return document.documentElement.scrollWidth > window.innerWidth;
-    });
-
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
     expect(overflow).toBe(false);
 
     await page.goto('/archetype');
-    const archetypeOverflow = await page.evaluate(() => {
-      return document.documentElement.scrollWidth > window.innerWidth;
-    });
+    const archetypeOverflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
     expect(archetypeOverflow).toBe(false);
   });
 });

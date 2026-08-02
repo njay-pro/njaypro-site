@@ -4,102 +4,72 @@ import { ThreeSculpture } from '../components/ThreeSculpture';
 import { P5Field } from '../components/P5Field';
 import './ArchetypePage.css';
 
-export interface ArchetypeData {
+/* =====================================================================
+   HERMES ARCHETYPE ROUTER — STORY-DRIVEN LANDING
+   Story arc beats (mirroring OMO + memPalace):
+     1. THE MOMENT  — the moment you felt it.
+     2. THE GAP     — what is missing in the world.
+     3. THE SYSTEM  — five archetypes, picked by intent.
+     4. THE PROOF   — same prompt, different minds.
+     5. THE DOOR    — open source, install in 7 lines.
+     . FOR BUILDERS — quiet code tail, optional.
+   ===================================================================== */
+
+export interface Archetype {
   id: string;
   glyph: string;
-  tool: string;
   role: string;
-  summary: string;
-  tools: string;
-  iterations: number;
+  tagline: string;       // 1-line in plain language
+  when: string;          // 1-line use case
+  counter: string;       // 1-line contrast
   signal: 'amber' | 'mint' | 'cyan' | 'oxide';
-  codeExample: string;
 }
 
-export const ARCHETYPES_DATA: ArchetypeData[] = [
+export const ARCHETYPES_DATA: Archetype[] = [
   {
     id: 'consultant',
     glyph: '◆',
-    tool: 'delegate_task_consultant',
-    role: 'Resolve ambiguity',
-    summary: 'Raw nuance, architecture, intent distillation, near-completion synthesis.',
-    tools: 'terminal · file · web',
-    iterations: 50,
+    role: 'Consultant',
+    tagline: 'Reads the room, then decides.',
+    when: 'Open-ended problems, ambiguous input, "we need a recommendation."',
+    counter: 'A single LLM guesses — a Consultant weighs options and commits.',
     signal: 'amber',
-    codeExample: `# Resolve an architectural decision.
-delegate_task_consultant(
-    goal="Analyze the auth bottleneck and recommend one architecture.",
-    context="Python, FastAPI, Redis. Current baseline: 10K requests/second.",
-    max_iterations=50,
-)`,
   },
   {
     id: 'long-horizon',
     glyph: '☰',
-    tool: 'delegate_task_long_horizon',
-    role: 'Carry the build',
-    summary: 'Stateful, multi-step execution with a self-managed plan and anti-drift posture.',
-    tools: 'terminal · file · web',
-    iterations: 100,
+    role: 'Long-Horizon',
+    tagline: 'Carries the build across the whole day.',
+    when: 'Multi-step execution with files, terminals, and a real plan.',
+    counter: 'A single LLM forgets by step 3 — Long-Horizon owns the plan end-to-end.',
     signal: 'mint',
-    codeExample: `# Hand a stable worker the implementation mission.
-delegate_task_long_horizon(
-    goal="Implement the selected auth architecture and verify the full test suite.",
-    context="The architecture decision is locked. Preserve public API behavior.",
-    preload_files=["/absolute/path/to/MIGRATION_PLAN.md"],
-    max_iterations=100,
-)`,
   },
   {
     id: 'high-hallucination',
     glyph: '✦',
-    tool: 'delegate_task_high_hallucination',
-    role: 'Open alternatives',
-    summary: 'Short-horizon lateral exploration with creative range and explicit grounding.',
-    tools: 'terminal · file · web',
-    iterations: 40,
+    role: 'High-Hallucination',
+    tagline: 'Opens three alternatives, not one answer.',
+    when: 'Creative direction, divergent options, "show me the range."',
+    counter: 'A single LLM converges too fast — High-Hallucination explores the map before picking.',
     signal: 'oxide',
-    codeExample: `# Explore before committing to one visual direction.
-delegate_task_high_hallucination(
-    goal="Create exactly three distinct launch concepts for a luxury lighting line.",
-    context="Audience: architects and high-end hospitality studios.",
-    output_schema_override={"type": "array", "minItems": 3, "maxItems": 3},
-    max_iterations=40,
-)`,
   },
   {
     id: 'speedster-internal',
     glyph: '▣',
-    tool: 'delegate_task_speedster_internal',
-    role: 'Scan the machine',
-    summary: 'Fast deterministic extraction from local files, with no terminal or network surface.',
-    tools: 'file only',
-    iterations: 15,
+    role: 'Speedster · Internal',
+    tagline: 'Reads the machine, fast.',
+    when: 'File scans, repo searches, deterministic extraction.',
+    counter: 'A single LLM times out — Speedster returns the matching paths in seconds.',
     signal: 'cyan',
-    codeExample: `# Fast local file scanning and deterministic extraction.
-delegate_task_speedster_internal(
-    goal="STEP 1: Read the image bank. STEP 2: Return matching asset paths.",
-    skill_include_override=["nodes_vector-search"],
-    max_iterations=15,
-)`,
   },
   {
     id: 'speedster-internet',
     glyph: '◌',
-    tool: 'delegate_task_speedster_internet',
-    role: 'Scan the network',
-    summary: 'Fast fetching, endpoint extraction, and web pre-filtering with no local file surface.',
-    tools: 'web only',
-    iterations: 20,
+    role: 'Speedster · Internet',
+    tagline: 'Reads the network, fast.',
+    when: 'Endpoint extraction, breaking-change lookups, web pre-filtering.',
+    counter: 'A single LLM tries too much — Speedster fetches, parses, hands back the delta.',
     signal: 'cyan',
-    codeExample: `# Fast web fetching and endpoint extraction.
-delegate_task_speedster_internet(
-    tasks=[
-        {"goal": "STEP 1: Fetch release A. STEP 2: Extract breaking changes."},
-        {"goal": "STEP 1: Fetch release B. STEP 2: Extract breaking changes."},
-    ],
-    max_iterations=20,
-)`,
   },
 ];
 
@@ -119,21 +89,110 @@ Do the installation end-to-end:
 
 If a step fails, stop and report the failed step and real error. Do not invent a workaround.`;
 
+/* =====================================================================
+   SECTION 4: PROOF — Same prompt, different minds.
+   We pick one real, meaningful prompt and show how five archetypes
+   answer it differently. This is the visceral "oh, that's the point"
+   beat — OMO does this with `delegation_mode`, memPalace with
+   `image → prompt → memory → image`.
+   ===================================================================== */
+
+interface SamePromptBeat {
+  prompt: string;
+  context: string;
+  archetype: string;
+  headline: string;
+  bullets: string[];
+}
+
+const SAME_PROMPT_BEATS: SamePromptBeat[] = [
+  {
+    prompt: '"Should we keep the existing checkout or move to a headless storefront?"',
+    context: 'A real decision, not a demo.',
+    archetype: 'consultant',
+    headline: 'A Consultant weighs the tradeoffs and commits.',
+    bullets: [
+      'Surfaces revenue impact, retention, ops cost, and brand risk.',
+      'Commits to one of three scenarios, with a 90-day rollout.',
+      'Returns a one-paragraph recommendation, not a survey.',
+    ],
+  },
+  {
+    prompt: '"Plan, implement, and verify the storefront migration."',
+    context: 'A multi-day body of work.',
+    archetype: 'long-horizon',
+    headline: 'Long-Horizon owns the plan end-to-end.',
+    bullets: [
+      'Reads the migration brief, opens the milestones, runs the tests.',
+      'Surfaces blockers as they appear — never silently skips.',
+      'Returns when the build is green, or when it has the real reason it is not.',
+    ],
+  },
+  {
+    prompt: '"Show me three different homepage directions before we commit to one."',
+    context: 'A creative fork in the road.',
+    archetype: 'high-hallucination',
+    headline: 'High-Hallucination explores the map before picking.',
+    bullets: [
+      'Returns exactly three distinct directions, with explicit contrast.',
+      'Cites the constraints each direction trades against.',
+      'Refuses to converge too fast — that is the whole point.',
+    ],
+  },
+  {
+    prompt: '"Find every asset path in /brand that matches the word `warm`."',
+    context: 'A local-machine task.',
+    archetype: 'speedster-internal',
+    headline: 'Speedster · Internal returns the matching paths in seconds.',
+    bullets: [
+      'Reads the file system, runs the matcher, returns paths only.',
+      'No network surface, no terminal scope, no hallucinated names.',
+      'Closes its own iteration loop before the parent is even watching.',
+    ],
+  },
+  {
+    prompt: '"Pull the breaking-change notes for v2 and v3 from the upstream changelogs."',
+    context: 'A network task with two endpoints.',
+    archetype: 'speedster-internet',
+    headline: 'Speedster · Internet fetches, parses, hands back the delta.',
+    bullets: [
+      'Holds the endpoints in parallel, never serially.',
+      'Returns the breaking notes only — not the full release page.',
+      'Closes its own iteration loop before the parent is even watching.',
+    ],
+  },
+];
+
+/* =====================================================================
+   SECTION 5: THE DOOR — A real install that takes 7 lines.
+   One command + one paragraph of context. No wall of text.
+   ===================================================================== */
+
+interface DoorStep {
+  n: number;
+  label: string;
+  detail: string;
+}
+
+const DOOR_STEPS: DoorStep[] = [
+  { n: 1, label: 'Clone the v1.0.0 tag', detail: 'git clone --branch v1.0.0 https://github.com/njay-pro/hermes-archetype-subagent ~/.hermes/plugins/archetype-router' },
+  { n: 2, label: 'Install dependencies', detail: 'cd ~/.hermes/plugins/archetype-router && uv sync --extra dev --extra test' },
+  { n: 3, label: 'Register the five `arc-*` models in each Hermes profile', detail: 'For every profile under ~/.hermes/profiles/, set each `arc-*` model context to 1,000,000.' },
+  { n: 4, label: 'Restart the Hermes gateway', detail: '`hermes gateway restart` — the plugin appears as five new delegate_task_* tools.' },
+  { n: 5, label: 'Make one real call', detail: 'Run a real delegate_task_consultant in production — report the exact result.' },
+];
+
 interface ArchetypePageProps {
   isReducedMotion?: boolean;
 }
 
 export const ArchetypePage: React.FC<ArchetypePageProps> = ({ isReducedMotion = false }) => {
-  const [selectedArchetypeIndex, setSelectedArchetypeIndex] = useState<number>(1); // Default to long-horizon
-  const [activeLayerIndex, setActiveLayerIndex] = useState<number>(0);
-  const [codeCopied, setCodeCopied] = useState<boolean>(false);
-  const [installCopied, setInstallCopied] = useState<boolean>(false);
-  const [copyStatusMessage, setCopyStatusMessage] = useState<string>('');
-  const [ariaLiveMessage, setAriaLiveMessage] = useState<string>('');
+  const [selectedArchetypeIndex, setSelectedArchetypeIndex] = useState<number>(1);
+  const [copyState, setCopyState] = useState<'idle' | 'copied' | 'failed'>('idle');
+  const [installCopyState, setInstallCopyState] = useState<'idle' | 'copied' | 'failed'>('idle');
 
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [routeSettled, setRouteSettled] = useState(false);
-  const selectedArchetype = ARCHETYPES_DATA[selectedArchetypeIndex];
 
   useEffect(() => {
     const settle = () => setRouteSettled(true);
@@ -145,39 +204,8 @@ export const ArchetypePage: React.FC<ArchetypePageProps> = ({ isReducedMotion = 
     };
   }, []);
 
-  const routingLayers = [
-    {
-      step: 'LAYER 01',
-      title: 'Model',
-      desc: 'Match reasoning depth and context capacity to task domain demands.',
-    },
-    {
-      step: 'LAYER 02',
-      title: 'Persona',
-      desc: 'Lock behavioral rules, skepticism levels, and problem-solving posture.',
-    },
-    {
-      step: 'LAYER 03',
-      title: 'Toolset',
-      desc: 'Restrict runtime surface area to only required capabilities.',
-    },
-    {
-      step: 'LAYER 04',
-      title: 'Horizon',
-      desc: 'Set max iteration caps and execution boundaries (e.g. 15–100 iterations, bounded execution).',
-    },
-    {
-      step: 'LAYER 05',
-      title: 'Skill Context',
-      desc: 'Inject domain-specific rulesets, schemas, and verification constraints.',
-    },
-  ];
-
   const handleArchetypeSelect = (index: number) => {
     setSelectedArchetypeIndex(index);
-    setCodeCopied(false);
-    setCopyStatusMessage('');
-    setAriaLiveMessage(`Selected archetype: ${ARCHETYPES_DATA[index].id}`);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
@@ -195,108 +223,68 @@ export const ArchetypePage: React.FC<ArchetypePageProps> = ({ isReducedMotion = 
     } else {
       return;
     }
-
     handleArchetypeSelect(nextIndex);
-    // Focus the target tab button DOM element
     tabRefs.current[nextIndex]?.focus();
   };
 
-  const showCopySuccess = (type: 'code' | 'install') => {
-    if (type === 'code') {
-      setCodeCopied(true);
-      setAriaLiveMessage('Archetype Python invocation code copied to clipboard.');
-      setTimeout(() => setCodeCopied(false), 3000);
-    } else {
-      setInstallCopied(true);
-      setAriaLiveMessage('Hermes agent installation prompt copied to clipboard.');
-      setTimeout(() => setInstallCopied(false), 3000);
-    }
-  };
-
-  const showCopyError = () => {
-    const errorMsg = 'Failed to copy to clipboard. Please select and copy text manually.';
-    setCopyStatusMessage(errorMsg);
-    setAriaLiveMessage(errorMsg);
-    setTimeout(() => setCopyStatusMessage(''), 4000);
-  };
-
-  const copyToClipboard = (text: string, type: 'code' | 'install') => {
-    if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
-      navigator.clipboard
-        .writeText(text)
-        .then(() => showCopySuccess(type))
-        .catch(() => fallbackCopy(text, type));
-    } else {
-      fallbackCopy(text, type);
-    }
-  };
-
-  const fallbackCopy = (text: string, type: 'code' | 'install') => {
+  const copyText = async (text: string, setState: (s: 'idle' | 'copied' | 'failed') => void) => {
     try {
-      const textArea = document.createElement('textarea');
-      textArea.value = text;
-      textArea.style.position = 'fixed';
-      textArea.style.opacity = '0';
-      document.body.appendChild(textArea);
-      textArea.select();
-      const successful = document.execCommand('copy');
-      document.body.removeChild(textArea);
-
-      if (successful) {
-        showCopySuccess(type);
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+        await navigator.clipboard.writeText(text);
       } else {
-        showCopyError();
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
       }
+      setState('copied');
+      window.setTimeout(() => setState('idle'), 2400);
     } catch {
-      showCopyError();
+      setState('failed');
+      window.setTimeout(() => setState('idle'), 3000);
     }
   };
 
-  const scrollToSelector = () => {
-    const selectorSection = document.getElementById('archetype-selector');
-    if (selectorSection) {
-      selectorSection.scrollIntoView({ behavior: isReducedMotion ? 'auto' : 'smooth' });
-    }
-  };
+  const selectedArchetype = ARCHETYPES_DATA[selectedArchetypeIndex];
 
   return (
     <div className="archetype-page">
       <P5Field fieldState="RESOLVED" activeSignal={selectedArchetype.signal} isReducedMotion={isReducedMotion} />
       <ThreeSculpture mode="archetype" activeIndex={selectedArchetypeIndex} isReducedMotion={isReducedMotion} routeSettled={routeSettled} />
 
-      {/* Accessible Live Region */}
-      <div className="sr-only" aria-live="polite" aria-atomic="true">
-        {ariaLiveMessage}
-      </div>
-
       <main id="main-content">
-        {/* 1. Product Hero */}
+        {/* ============================================================
+            BEAT 1 — THE MOMENT
+            The first sentence is the moment you felt it. It is not a
+            tagline. It is not a slogan. It is a real failure mode.
+            ============================================================ */}
         <section className="hero-section section container">
           <div className="hero-content">
             <div className="eyebrow font-mono text-signal-mint">
               <span className="socket mint" />
-              <span>OPEN SOURCE / HERMES AGENT PLUGIN</span>
+              <span>OPEN SOURCE · HERMES AGENT PLUGIN · v1.0.0</span>
             </div>
 
             <h1 className="hero-title font-display">
-              ONE SUBAGENT IS NOT A SYSTEM.
+              You watched one AI answer ten different questions with the same voice.
             </h1>
 
-            <p className="hero-subhead">
-              Give the task the kind of mind it needs.
+            <p className="hero-subhead font-display">
+              We did too. That is why we built five minds instead.
             </p>
 
             <div className="hero-actions">
-              <button
-                type="button"
+              <a
+                href="#story-the-gap"
                 className="btn btn-primary"
-                onClick={scrollToSelector}
-                aria-label="Explore the five archetypes"
               >
-                <span>Explore the five</span>
+                <span>Start at the beginning</span>
                 <span>↓</span>
-              </button>
-
+              </a>
               <a
                 href="https://github.com/njay-pro/hermes-archetype-subagent"
                 target="_blank"
@@ -310,217 +298,298 @@ export const ArchetypePage: React.FC<ArchetypePageProps> = ({ isReducedMotion = 
           </div>
         </section>
 
-        {/* 2. Five-Archetype Working Constellation Network */}
-        <section id="archetype-selector" className="section container">
-          <div className="section-header">
-            <span className="font-mono text-muted">HERMES_ROUTER // CONSTELLATION</span>
-            <h2 className="section-title font-display">Five Specialist Archetypes</h2>
-          </div>
+        {/* ============================================================
+            BEAT 2 — THE GAP
+            What is missing in the world, told in Njay's voice.
+            Three columns of "the gap," each one a real failure you have
+            seen in production.
+            ============================================================ */}
+        <section id="story-the-gap" className="section container story-gap-section">
+          <header className="story-section-header">
+            <span className="font-mono text-signal-amber">01 · THE GAP</span>
+            <h2 className="story-section-title font-display">
+              Most agents are a single voice<br /> answering every kind of work.
+            </h2>
+          </header>
 
-          <div className="archetype-constellation-wrapper">
-            {/* SVG Constellation Signal Wires */}
-            <svg className="constellation-wire-svg" aria-hidden="true" preserveAspectRatio="none">
-              <line x1="20%" y1="50%" x2="80%" y2="50%" stroke="var(--line-structural)" strokeWidth="1.5" />
-            </svg>
+          <ol className="story-gap-list">
+            <li className="story-gap-item">
+              <span className="story-gap-num font-mono">A</span>
+              <p>
+                <strong>The architect that also does the dishes.</strong> One model,
+                one prompt, one tone. A real decision and a typo fix get the same
+                thirty seconds.
+              </p>
+            </li>
+            <li className="story-gap-item">
+              <span className="story-gap-num font-mono">B</span>
+              <p>
+                <strong>The long build that forgot step 3.</strong> Stateful,
+                multi-day work that quietly loses context between calls — and
+                silently invents the missing pieces.
+              </p>
+            </li>
+            <li className="story-gap-item">
+              <span className="story-gap-num font-mono">C</span>
+              <p>
+                <strong>The creative brief that converged too fast.</strong> One
+                answer, when the brief was really asking for the range. The map
+                was never drawn — only the destination.
+              </p>
+            </li>
+          </ol>
 
-            {/* Archetype Selector Tabs / Constellation Rail */}
-            <div
-              className="archetype-constellation-rail"
-              role="tablist"
-              aria-label="Archetype Router Selector"
-            >
-              <span className="constellation-hub" aria-hidden="true"><span className="socket mint" /></span>
-              {ARCHETYPES_DATA.map((arch, idx) => {
-                const isSelected = idx === selectedArchetypeIndex;
-                return (
-                  <button
-                    key={arch.id}
-                    ref={(el) => (tabRefs.current[idx] = el)}
-                    type="button"
-                    role="tab"
-                    id={`tab-${arch.id}`}
-                    aria-selected={isSelected}
-                    aria-controls={`panel-${arch.id}`}
-                    tabIndex={isSelected ? 0 : -1}
-                    className={`archetype-node-socket ${isSelected ? 'active' : ''}`}
-                    onClick={() => handleArchetypeSelect(idx)}
-                    onKeyDown={(e) => handleKeyDown(e, idx)}
-                  >
-                    <div className="node-socket-top">
-                      <span className="tab-glyph font-mono">{arch.glyph}</span>
-                      <span className={`socket ${arch.signal} ${isSelected ? 'pulse' : ''}`} />
-                    </div>
-                    <div className="node-socket-main">
-                      <span className="tab-id font-mono">{arch.id}</span>
-                      <span className="tab-role font-display">{arch.role}</span>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Selected Archetype Display Card */}
-            <div
-              id={`panel-${selectedArchetype.id}`}
-              role="tabpanel"
-              aria-labelledby={`tab-${selectedArchetype.id}`}
-              className="selected-archetype-display panel"
-            >
-              <div className="display-header">
-                <div className="display-title-group">
-                  <span className="display-glyph">{selectedArchetype.glyph}</span>
-                  <h3 className="display-id font-mono text-signal-mint">
-                    {selectedArchetype.id}
-                  </h3>
-                </div>
-                <span className={`socket ${selectedArchetype.signal}`} />
-              </div>
-
-              <div className="display-role font-display">
-                {selectedArchetype.role}
-              </div>
-
-              <p className="display-summary">{selectedArchetype.summary}</p>
-
-              <div className="display-meta-grid">
-                <div className="meta-item">
-                  <span className="meta-label font-mono">TOOL BOUNDARY</span>
-                  <span className="meta-value font-mono">{selectedArchetype.tools}</span>
-                </div>
-                <div className="meta-item">
-                  <span className="meta-label font-mono">MAX ITERATIONS</span>
-                  <span className="meta-value font-mono">{selectedArchetype.iterations}</span>
-                </div>
-                <div className="meta-item">
-                  <span className="meta-label font-mono">DELEGATE TOOL</span>
-                  <span className="meta-value font-mono text-signal-cyan">{selectedArchetype.tool}</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <p className="story-thesis font-display">
+            Each failure is a missing kind of mind. The fix is not a bigger
+            model. It is a <span className="text-signal-mint">router</span>.
+          </p>
         </section>
 
-        {/* 3. Routing Decision Sequence / Contrast Section */}
-        <section className="section container contrast-section">
-          <div className="contrast-header">
-            <span className="font-mono text-signal-amber">ARCHITECTURE // CONTROL_FLOW</span>
-            <h2 className="contrast-title font-display">
-              THE ROUTING DECISION BELONGS BEFORE THE PROMPT.
+        {/* ============================================================
+            BEAT 3 — THE SYSTEM
+            The five archetypes, explained in plain language, with the
+            counter that names the failure each one closes.
+            ============================================================ */}
+        <section className="section container story-system-section">
+          <header className="story-section-header">
+            <span className="font-mono text-signal-mint">02 · THE SYSTEM</span>
+            <h2 className="story-section-title font-display">
+              Five kinds of mind.<br /> Pick by intent. The router picks the rest.
             </h2>
-          </div>
+            <p className="story-section-lede">
+              Each archetype is a specialist — model, persona, toolset, and a
+              bounded horizon. You write the goal. The router writes the brief.
+            </p>
+          </header>
 
-          <div className="layers-sequence-flow">
-            {routingLayers.map((layer, idx) => {
-              const isActive = activeLayerIndex === idx;
+          <div className="archetype-rail" role="tablist" aria-label="Archetype selector">
+            {ARCHETYPES_DATA.map((arch, idx) => {
+              const isSelected = idx === selectedArchetypeIndex;
               return (
                 <button
+                  key={arch.id}
+                  ref={(el) => (tabRefs.current[idx] = el)}
                   type="button"
-                  key={layer.step}
-                  className={`layer-sequence-step ${isActive ? 'active' : ''}`}
-                  onClick={() => setActiveLayerIndex(idx)}
+                  role="tab"
+                  id={`tab-${arch.id}`}
+                  aria-selected={isSelected}
+                  aria-controls={`panel-${arch.id}`}
+                  tabIndex={isSelected ? 0 : -1}
+                  className={`archetype-card ${isSelected ? 'active' : ''}`}
+                  onClick={() => handleArchetypeSelect(idx)}
+                  onKeyDown={(e) => handleKeyDown(e, idx)}
                 >
-                  <div className="step-header">
-                    <span className="layer-step font-mono text-muted">{layer.step}</span>
-                    <span className={`socket ${isActive ? 'mint' : ''}`} />
+                  <div className="archetype-card-head">
+                    <span className="archetype-glyph font-mono">{arch.glyph}</span>
+                    <span className={`socket ${arch.signal} ${isSelected ? 'pulse' : ''}`} />
                   </div>
-                  <span className="layer-title font-display">{layer.title}</span>
-                  <span className="layer-desc">{layer.desc}</span>
+                  <span className="archetype-id font-mono">{arch.id}</span>
+                  <h3 className="archetype-role font-display">{arch.role}</h3>
+                  <p className="archetype-tagline">{arch.tagline}</p>
+                  <p className="archetype-when">{arch.when}</p>
+                  <p className="archetype-counter">{arch.counter}</p>
                 </button>
               );
             })}
           </div>
         </section>
 
-        {/* 4. Usage / Code Surface */}
-        <section className="section container code-section">
-          <div className="section-header">
-            <span className="font-mono text-muted">PAYLOAD // LIVE_TOOL_CALL</span>
-            <h2 className="section-title font-display">Archetype Invocation Syntax</h2>
-          </div>
+        {/* ============================================================
+            BEAT 4 — THE PROOF
+            Same prompt, different minds. Five real beats.
+            This is where the page turns from concept to evidence.
+            ============================================================ */}
+        <section className="section container story-proof-section">
+          <header className="story-section-header">
+            <span className="font-mono text-signal-cyan">03 · THE PROOF</span>
+            <h2 className="story-section-title font-display">
+              Same prompt. Five minds.<br /> Five different answers.
+            </h2>
+            <p className="story-section-lede">
+              Five real prompts, one each per archetype. The router is the
+              only thing that changes.
+            </p>
+          </header>
 
-          <div className="code-surface-wrapper panel">
-            <div className="code-surface-header">
-              <div className="code-surface-title font-mono text-signal-mint">
-                <span>{selectedArchetype.tool}.py</span>
-              </div>
-              <button
-                type="button"
-                className="btn btn-ghost copy-btn"
-                onClick={() => copyToClipboard(selectedArchetype.codeExample, 'code')}
-                aria-label="Copy archetype invocation code to clipboard"
-              >
-                <span>{codeCopied ? '✓ Copied' : 'Copy Invocation'}</span>
-              </button>
-            </div>
+          <div className="proof-stack">
+            {SAME_PROMPT_BEATS.map((beat) => (
+              <article key={beat.archetype} className="proof-card panel">
+                <div className="proof-card-head">
+                  <span className="proof-archetype font-mono">
+                    {beat.archetype}
+                  </span>
+                  <span className="proof-context font-mono">{beat.context}</span>
+                </div>
 
-            <pre className="code-panel">
-              <code>{selectedArchetype.codeExample}</code>
-            </pre>
+                <blockquote className="proof-prompt font-display">
+                  {beat.prompt}
+                </blockquote>
+
+                <div className="proof-payload">
+                  <span className="proof-payload-label font-mono">
+                    What comes back
+                  </span>
+                  <h4 className="proof-headline font-display">{beat.headline}</h4>
+                  <ul className="proof-bullets">
+                    {beat.bullets.map((bullet, idx) => (
+                      <li key={idx}>{bullet}</li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+            ))}
           </div>
         </section>
 
-        {/* 5. Accurate Hermes Agent Install Prompt */}
-        <section className="section container install-section">
-          <div className="install-card panel">
-            <div className="install-header">
-              <span className="font-mono text-signal-mint">DEPLOY // AGENT_ORCHESTRATION</span>
-              <span className="font-mono text-muted">RELEASE V1.0.0</span>
-            </div>
+        {/* ============================================================
+            BEAT 5 — THE DOOR
+            A real install. Five steps. Five lines of prose.
+            One CTA into the GitHub repo.
+            ============================================================ */}
+        <section className="section container story-door-section">
+          <header className="story-section-header">
+            <span className="font-mono text-signal-mint">04 · THE DOOR</span>
+            <h2 className="story-section-title font-display">
+              It is open source. It ships today.
+            </h2>
+            <p className="story-section-lede">
+              v1.0.0 is on GitHub. Five steps, five minutes, zero gatekeepers.
+            </p>
+          </header>
 
-            <h2 className="install-title font-display">Install Hermes Archetype Router</h2>
+          <ol className="door-steps">
+            {DOOR_STEPS.map((step) => (
+              <li key={step.n} className="door-step">
+                <span className="door-step-num font-mono">{String(step.n).padStart(2, '0')}</span>
+                <div className="door-step-body">
+                  <h4 className="door-step-label font-display">{step.label}</h4>
+                  <code className="door-step-detail font-mono">{step.detail}</code>
+                </div>
+              </li>
+            ))}
+          </ol>
 
-            <div className="install-prompt-wrapper">
-              <div className="install-prompt-actions">
-                <a
-                  href="https://github.com/njay-pro/hermes-archetype-subagent#readme"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-mono text-signal-cyan docs-link"
-                >
-                  Read Installation Docs ↗
-                </a>
+          <div className="door-cta-row">
+            <a
+              href="https://github.com/njay-pro/hermes-archetype-subagent"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary"
+            >
+              <span>Open the repo · v1.0.0</span>
+              <span>↗</span>
+            </a>
+            <a
+              href="https://github.com/njay-pro/hermes-archetype-subagent#readme"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-ghost"
+            >
+              <span>Read the README</span>
+              <span>↗</span>
+            </a>
+          </div>
+        </section>
+
+        {/* ============================================================
+            FOR BUILDERS — quiet tail.
+            For the engineer or vibe-coder in the audience, here is the
+            actual tool call. Faded so it does not compete with the
+            story above.
+            ============================================================ */}
+        <section className="section container story-builders-section">
+          <header className="story-section-header">
+            <span className="font-mono text-muted">FOR BUILDERS · OPTIONAL</span>
+            <h2 className="story-section-title-sm font-display">
+              If you write Python, here is the call.
+            </h2>
+            <p className="story-section-lede">
+              The tool surface. Copy-pasteable. Skippable — you do not need
+              this section to understand the page.
+            </p>
+          </header>
+
+          <div className="builders-row">
+            <div className="builders-card panel">
+              <div className="builders-card-head">
+                <span className="font-mono text-signal-mint">
+                  {ARCHETYPES_DATA[selectedArchetypeIndex].id}.py
+                </span>
                 <button
                   type="button"
-                  className="btn btn-primary"
-                  onClick={() => copyToClipboard(ACCURATE_INSTALL_PROMPT, 'install')}
-                  aria-label="Copy Hermes agent installation prompt"
+                  className="builders-copy font-mono"
+                  onClick={() => {
+                    const tool = `delegate_task_${ARCHETYPES_DATA[selectedArchetypeIndex].id.replace(/-/g, '_')}`;
+                    const a = ARCHETYPES_DATA[selectedArchetypeIndex];
+                    const code = `${tool}(\n    goal="...",\n    context="...",\n    max_iterations=${a.id === 'speedster-internal' ? 15 : a.id === 'speedster-internet' ? 20 : a.id === 'high-hallucination' ? 40 : a.id === 'consultant' ? 50 : 100},\n)`;
+                    void copyText(code, setCopyState);
+                  }}
+                  aria-label="Copy tool-call snippet"
                 >
-                  <span>{installCopied ? '✓ Prompt Copied' : 'Copy Agent Prompt'}</span>
+                  {copyState === 'copied' ? '✓ Copied' : 'Copy snippet'}
                 </button>
               </div>
+              <pre className="builders-code font-mono">
+{`# Pick by intent, not by model.
+delegate_task_${ARCHETYPES_DATA[selectedArchetypeIndex].id.replace(/-/g, '_')}(
+    goal="<the work, written in one sentence>",
+    context="<the brief, written in one paragraph>",
+    max_iterations=${selectedArchetypeIndex === 3 ? 15 : selectedArchetypeIndex === 4 ? 20 : selectedArchetypeIndex === 2 ? 40 : selectedArchetypeIndex === 0 ? 50 : 100},
+)`}
+              </pre>
+            </div>
 
-              {copyStatusMessage && (
-                <div className="copy-error-banner font-mono" role="alert">
-                  {copyStatusMessage}
-                </div>
-              )}
-
-              <pre className="install-code-box code-panel">
-                <code>{ACCURATE_INSTALL_PROMPT}</code>
+            <div className="builders-card panel">
+              <div className="builders-card-head">
+                <span className="font-mono text-signal-mint">install.md</span>
+                <button
+                  type="button"
+                  className="builders-copy font-mono"
+                  onClick={() => void copyText(ACCURATE_INSTALL_PROMPT, setInstallCopyState)}
+                  aria-label="Copy installation prompt"
+                >
+                  {installCopyState === 'copied' ? '✓ Copied' : 'Copy agent prompt'}
+                </button>
+              </div>
+              <pre className="builders-code font-mono">
+{`# Paste this to Hermes and walk away.
+${ACCURATE_INSTALL_PROMPT.split('\n').slice(0, 3).join('\n')}
+... (7 steps total — see repo)`}
               </pre>
             </div>
           </div>
         </section>
 
-        {/* 6. Footer / Back Connection */}
-        <footer className="site-footer">
-          <div className="container footer-inner">
-            <div className="footer-brand font-mono">
-              <p className="footer-title">Built by Njay + Hermes inside OMCA.</p>
-              <p className="footer-sub text-muted">OPEN SOURCE / HERMES ARCHETYPE ROUTER V1.0.0</p>
-            </div>
-
-            <div className="footer-links font-mono">
-              <Link to="/" className="footer-link text-signal-mint">
-                ← Back to identity graph
+        {/* ============================================================
+            CLOSE — Njay's footer.
+            Honest, brief, no marketing fog.
+            ============================================================ */}
+        <footer className="story-footer">
+          <div className="container story-footer-inner">
+            <div className="story-footer-left">
+              <span className="font-mono text-muted">
+                BUILT BY NJAY + HERMES · INSIDE OMCA
+              </span>
+              <Link to="/" className="story-back-link font-mono">
+                ← Back to the identity graph
               </Link>
+            </div>
+            <div className="story-footer-right">
               <a
                 href="https://github.com/njay-pro/hermes-archetype-subagent"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="footer-link"
+                className="story-footer-link font-mono"
               >
                 GitHub ↗
+              </a>
+              <a
+                href="https://github.com/njay-pro/hermes-archetype-subagent/issues"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="story-footer-link font-mono"
+              >
+                Issues ↗
               </a>
             </div>
           </div>

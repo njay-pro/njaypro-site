@@ -1,8 +1,56 @@
+/* =====================================================================
+   HERMES ARCHETYPE PAGE — Story spine, editorial typography
+   Five beats: Moment / Gap / System / Proof / Door, plus a quiet
+   "for builders" tail and a footer.
+   No panel-as-card furniture. No gradient. No glass.
+   ===================================================================== */
+
 .archetype-page {
   position: relative;
   min-height: 100vh;
   padding-top: 5rem;
 }
+
+/* Editorial helpers shared across all beats */
+.story-section-header {
+  max-width: 1100px;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.story-section-title,
+.story-section-title-sm {
+  font-weight: 520;
+  letter-spacing: -0.06em;
+  color: var(--text-primary);
+  margin-top: 1rem;
+}
+
+.story-section-title {
+  font-size: clamp(2.4rem, 6vw, 5.2rem);
+  line-height: 0.95;
+}
+
+.story-section-title-sm {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  line-height: 1;
+}
+
+.story-section-lede {
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  color: var(--text-secondary);
+  max-width: 46rem;
+  margin-top: 1.5rem;
+  line-height: 1.45;
+  font-family: var(--font-body);
+}
+
+/* Shared signal utilities (kept from old page) */
+.text-signal-mint { color: var(--signal-mint); }
+.text-signal-amber { color: var(--signal-amber); }
+.text-signal-cyan { color: var(--signal-cyan); }
+.text-muted { color: var(--text-muted); }
+.font-mono { font-family: var(--font-mono); letter-spacing: 0.02em; }
+.font-display { font-family: var(--font-display); }
 
 .sr-only {
   position: absolute;
@@ -16,7 +64,10 @@
   border: 0;
 }
 
-/* Hero — protected typographic foreground, sculpture lives in the negative space. */
+/* =====================================================================
+   BEAT 1 — THE MOMENT
+   Hero. Large editorial type. Sculpture in the negative space.
+   ===================================================================== */
 .archetype-page .hero-section {
   min-height: calc(100vh - 5rem);
   display: flex;
@@ -28,26 +79,29 @@
 }
 
 .archetype-page .hero-content {
-  max-width: 1050px;
+  max-width: 1180px;
   position: relative;
   z-index: 2;
   text-shadow: 0 2px 28px var(--bg-void), 0 0 10px var(--bg-void);
 }
 
 .archetype-page .hero-title {
-  font-size: clamp(3.2rem, 8.5vw, 8.5rem);
-  line-height: 0.88;
+  font-size: clamp(2.6rem, 6.2vw, 6.2rem);
+  line-height: 0.92;
   font-weight: 520;
-  letter-spacing: -0.06em;
+  letter-spacing: -0.05em;
   margin-bottom: 1.5rem;
+  max-width: 18ch;
 }
 
 .archetype-page .hero-subhead {
   font-size: clamp(1.2rem, 2.4vw, 1.8rem);
   color: var(--text-secondary);
-  max-width: 42rem;
+  max-width: 32rem;
   line-height: 1.4;
   margin-bottom: 2.5rem;
+  font-weight: 380;
+  letter-spacing: -0.025em;
 }
 
 .archetype-page .hero-actions {
@@ -57,381 +111,459 @@
   gap: 1.25rem;
 }
 
-/* Constellation — nodes orbit a live center, not a five-card toolbar. */
-.archetype-constellation-wrapper {
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* =====================================================================
+   BEAT 2 — THE GAP
+   Three numbered items, plain language, with a thesis sentence.
+   ===================================================================== */
+.story-gap-section {
   position: relative;
   z-index: var(--z-content);
 }
 
-.constellation-wire-svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.75;
-}
-
-.archetype-constellation-rail {
-  position: relative;
-  z-index: 2;
-}
-
-.constellation-hub {
-  display: none;
-}
-
-.archetype-node-socket {
-  padding: 1rem 0 1.2rem;
+.story-gap-list {
+  list-style: none;
+  border-top: 1px solid var(--line-structural);
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
-  text-align: left;
-  cursor: pointer;
-  width: 100%;
-  color: inherit;
-  background: transparent;
-  border: 0;
-  border-top: 1px solid var(--line-structural);
+  max-width: 1080px;
+  margin-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+.story-gap-item {
+  display: grid;
+  grid-template-columns: 4rem 1fr;
+  gap: 1.5rem;
+  padding: 2rem 0;
   border-bottom: 1px solid var(--line-structural);
-  transition: border-color 220ms ease, transform 220ms ease, background-color 220ms ease;
 }
 
-.archetype-node-socket:hover,
-.archetype-node-socket.active {
-  border-top-color: var(--signal-mint);
-  border-bottom-color: var(--signal-mint);
+.story-gap-num {
+  font-size: 0.95rem;
+  color: var(--signal-amber);
+  padding-top: 0.3rem;
+  letter-spacing: 0.1em;
+}
+
+.story-gap-item p {
+  font-family: var(--font-body);
+  font-size: clamp(1.1rem, 1.8vw, 1.55rem);
+  line-height: 1.45;
+  color: var(--text-primary);
+  max-width: 50rem;
+}
+
+.story-gap-item strong {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.story-thesis {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.5vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  max-width: 32rem;
+  font-weight: 420;
+}
+
+/* =====================================================================
+   BEAT 3 — THE SYSTEM
+   Five archetype cards. Asymmetric rail, not a 5-up grid.
+   ===================================================================== */
+.story-system-section {
+  position: relative;
+  z-index: var(--z-content);
+}
+
+.archetype-rail {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  max-width: 1500px;
+}
+
+.archetype-card {
+  display: grid;
+  grid-template-columns: 4rem 1fr;
+  gap: 0.5rem 1.5rem;
+  align-items: start;
+  padding: 1.5rem 1.75rem;
+  background: transparent;
+  border: 1px solid var(--line-structural);
+  border-radius: var(--radius-panel);
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  transition: border-color 220ms ease, background-color 220ms ease, transform 220ms ease;
+}
+
+.archetype-card:hover {
+  border-color: var(--line-strong);
   background: rgba(168, 255, 184, 0.025);
-  transform: translateY(-4px);
+  transform: translateY(-2px);
 }
 
-.node-socket-top,
-.display-header,
-.step-header,
-.install-header,
-.code-surface-header,
-.install-prompt-actions {
+.archetype-card.active {
+  border-color: var(--signal-mint);
+  background: rgba(168, 255, 184, 0.04);
+}
+
+.archetype-card-head {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.2rem;
 }
 
-.tab-glyph {
-  font-size: 1.25rem;
+.archetype-glyph {
+  font-size: 1.5rem;
   color: var(--text-secondary);
 }
 
-.archetype-node-socket.active .tab-glyph {
+.archetype-card.active .archetype-glyph {
   color: var(--signal-mint);
 }
 
-.node-socket-main {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.tab-id {
+.archetype-id {
   font-size: 0.72rem;
   color: var(--text-muted);
   text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
-.tab-role {
-  font-size: 1.15rem;
+.archetype-role {
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  line-height: 1;
+  font-weight: 520;
+  letter-spacing: -0.03em;
   color: var(--text-primary);
-  line-height: 1.1;
+  margin-top: 0.2rem;
 }
 
-.selected-archetype-display {
-  padding: 2.5rem;
-  min-height: 360px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 1px solid var(--signal-mint);
-  background: rgba(23, 26, 22, 0.92);
-}
-
-.display-header {
-  margin-bottom: 1rem;
-}
-
-.display-title-group {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.display-glyph {
-  font-size: 1.75rem;
-  color: var(--signal-mint);
-}
-
-.display-id {
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.display-role {
-  font-size: clamp(2.2rem, 4vw, 3.5rem);
-  line-height: 1.05;
-  margin-bottom: 1.25rem;
+.archetype-tagline {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.8vw, 1.45rem);
   color: var(--text-primary);
+  line-height: 1.3;
+  margin-top: 0.7rem;
+  font-weight: 380;
+  letter-spacing: -0.025em;
 }
 
-.display-summary {
-  font-size: 1.15rem;
+.archetype-when {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
   color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 2rem;
+  line-height: 1.5;
+  margin-top: 0.5rem;
 }
 
-.display-meta-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--line-structural);
-}
-
-.meta-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.meta-label {
-  font-size: 0.7rem;
+.archetype-counter {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
   color: var(--text-muted);
+  line-height: 1.45;
+  margin-top: 0.6rem;
+  font-style: italic;
 }
 
-.meta-value {
-  font-size: 0.9rem;
-  color: var(--text-primary);
-}
-
-/* Five routing layers evaluate in sequence instead of repeating product cards. */
-.contrast-section,
-.code-section,
-.install-section {
+/* =====================================================================
+   BEAT 4 — THE PROOF
+   Same prompt → five minds. Each beat is an editorial card, not a chip.
+   ===================================================================== */
+.story-proof-section {
   position: relative;
   z-index: var(--z-content);
 }
 
-.contrast-header {
-  margin-bottom: 2.5rem;
-  max-width: 900px;
-}
-
-.contrast-title {
-  font-size: clamp(2.2rem, 5vw, 4.2rem);
-  margin-top: 0.5rem;
-  line-height: 0.95;
-}
-
-.layers-sequence-flow {
+.proof-stack {
   display: flex;
   flex-direction: column;
-  border-left: 1px solid var(--line-structural);
-  max-width: 980px;
+  gap: 1.5rem;
+  max-width: 1180px;
 }
 
-.layer-sequence-step {
-  padding: 1.35rem 1.5rem;
-  cursor: pointer;
+.proof-card {
   display: grid;
-  grid-template-columns: 8rem 12rem 1fr;
-  align-items: baseline;
-  border: 0;
-  border-bottom: 1px solid var(--line-structural);
-  background: transparent;
-  color: inherit;
-  text-align: left;
-  transition: border-color 220ms ease, background-color 220ms ease;
-}
-
-.layer-sequence-step:hover,
-.layer-sequence-step.active {
-  border-bottom-color: var(--signal-mint);
-  background: rgba(168, 255, 184, 0.025);
-}
-
-.step-header {
-  margin-bottom: 0;
-}
-
-.layer-step {
-  font-size: 0.75rem;
-}
-
-.layer-title {
-  font-size: 1.35rem;
-}
-
-.layer-desc {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.45;
-}
-
-/* Real invocation + installation surfaces. */
-.code-surface-wrapper {
-  padding: 0;
-  overflow: hidden;
+  grid-template-columns: 14rem 1fr;
+  gap: 1.5rem 3rem;
+  padding: 2rem 2.25rem;
+  border: 1px solid var(--line-structural);
+  border-radius: var(--radius-panel);
   background: var(--bg-panel);
+  transition: border-color 220ms ease;
 }
 
-.code-surface-header {
-  padding: 1rem 1.5rem;
-  background: var(--bg-graphite);
-  border-bottom: 1px solid var(--line-structural);
+.proof-card:hover {
+  border-color: var(--line-strong);
 }
 
-.code-surface-title {
-  font-size: 0.85rem;
-}
-
-.copy-btn {
-  padding: 6px 14px;
-  font-size: 0.75rem;
-}
-
-.install-card {
-  padding: clamp(2.5rem, 5vw, 4rem);
-  background: var(--bg-panel);
-}
-
-.install-header {
-  margin-bottom: 1.25rem;
-  font-size: 0.8rem;
-}
-
-.install-title {
-  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
-  line-height: 0.95;
-  margin-bottom: 1.5rem;
-}
-
-.install-prompt-wrapper {
+.proof-card-head {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 0.4rem;
 }
 
-.install-prompt-actions {
+.proof-archetype {
+  font-size: 0.78rem;
+  color: var(--signal-mint);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.proof-context {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.proof-prompt {
+  grid-column: 1 / -1;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.15rem, 2vw, 1.6rem);
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+  padding: 1.25rem 1.5rem;
+  border-left: 2px solid var(--signal-mint);
+  background: var(--bg-graphite);
+  margin-bottom: 0.5rem;
+}
+
+.proof-payload {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.proof-payload-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.proof-headline {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  line-height: 1.25;
+  font-weight: 480;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+}
+
+.proof-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.proof-bullets li {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  padding-left: 1.25rem;
+  position: relative;
+}
+
+.proof-bullets li::before {
+  content: '·';
+  position: absolute;
+  left: 0.25rem;
+  color: var(--signal-mint);
+  font-weight: 700;
+}
+
+/* =====================================================================
+   BEAT 5 — THE DOOR
+   Five install steps. Plain language. One CTA row.
+   ===================================================================== */
+.story-door-section {
+  position: relative;
+  z-index: var(--z-content);
+}
+
+.door-steps {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line-structural);
+  max-width: 1080px;
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+.door-step {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: 1.25rem;
+  padding: 1.6rem 0;
+  border-bottom: 1px solid var(--line-structural);
+  align-items: baseline;
+}
+
+.door-step-num {
+  font-size: 0.85rem;
+  color: var(--signal-mint);
+  letter-spacing: 0.1em;
+  padding-top: 0.2rem;
+}
+
+.door-step-label {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+  line-height: 1.2;
+  font-weight: 480;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+  margin-bottom: 0.6rem;
+}
+
+.door-step-detail {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  background: var(--bg-graphite);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-panel);
+  border: 1px solid var(--line-structural);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.door-cta-row {
+  display: flex;
   flex-wrap: wrap;
   gap: 1rem;
 }
 
-.docs-link {
-  text-decoration: none;
-  font-size: 0.9rem;
+/* =====================================================================
+   FOR BUILDERS — quiet tail
+   Faded so it does not compete with the story above.
+   ===================================================================== */
+.story-builders-section {
+  position: relative;
+  z-index: var(--z-content);
+  opacity: 0.78;
 }
 
-.docs-link:hover {
-  text-decoration: underline;
+.story-builders-section:hover {
+  opacity: 1;
 }
 
-.install-code-box {
-  margin-top: 0.5rem;
+.builders-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  max-width: 1180px;
+}
+
+.builders-card {
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--line-structural);
+  background: var(--bg-panel);
+}
+
+.builders-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--line-structural);
+  margin-bottom: 0.75rem;
+  font-size: 0.78rem;
+}
+
+.builders-copy {
+  background: transparent;
+  border: 1px solid var(--line-structural);
+  color: var(--text-secondary);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-control);
+  cursor: pointer;
+  font: inherit;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.builders-copy:hover {
+  border-color: var(--signal-mint);
+  color: var(--signal-mint);
+}
+
+.builders-code {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
   white-space: pre-wrap;
   word-break: break-word;
-  background-color: #060706;
+  background: transparent;
+  padding: 0;
+  margin: 0;
 }
 
-.copy-error-banner {
-  color: var(--signal-amber);
-  font-size: 0.85rem;
-  padding: 0.5rem 0;
-}
-
-.site-footer {
-  padding: 4rem 0 3rem;
+/* =====================================================================
+   FOOTER
+   ===================================================================== */
+.story-footer {
   border-top: 1px solid var(--line-structural);
-  margin-top: 4rem;
+  margin-top: clamp(4rem, 8vw, 7rem);
+  padding: 3rem 0 4rem;
   position: relative;
   z-index: var(--z-content);
 }
 
-.footer-inner {
+.story-footer-inner {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 2rem;
 }
 
-.footer-title {
-  font-weight: 600;
-  color: var(--text-primary);
-  font-size: 0.9rem;
-}
-
-.footer-sub {
-  font-size: 0.8rem;
-  margin-top: 0.25rem;
-}
-
-.footer-links {
+.story-footer-left,
+.story-footer-right {
   display: flex;
-  gap: 2rem;
+  flex-direction: column;
+  gap: 0.85rem;
 }
 
-.footer-link {
+.story-footer-right {
+  text-align: right;
+}
+
+.story-back-link,
+.story-footer-link {
   color: var(--text-secondary);
   text-decoration: none;
   font-size: 0.85rem;
   transition: color 0.2s ease;
 }
 
-.footer-link:hover {
+.story-back-link:hover,
+.story-footer-link:hover {
   color: var(--signal-mint);
 }
 
-@media (min-width: 901px) {
-  .archetype-constellation-wrapper {
-    min-height: 760px;
-    display: grid;
-    grid-template-columns: minmax(260px, 1fr) 420px minmax(260px, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    align-items: center;
-  }
-
-  .archetype-constellation-rail {
-    display: contents;
-  }
-
-  .constellation-hub {
-    display: grid;
-    place-items: center;
-    grid-column: 2;
-    grid-row: 2;
-    width: 72px;
-    height: 72px;
-    justify-self: center;
-    border: 1px solid var(--signal-mint);
-    border-radius: 50%;
-    background: var(--bg-void);
-    z-index: 3;
-  }
-
-  .archetype-node-socket:nth-of-type(2) { grid-column: 2; grid-row: 1; }
-  .archetype-node-socket:nth-of-type(3) { grid-column: 3; grid-row: 2; }
-  .archetype-node-socket:nth-of-type(4) { grid-column: 3; grid-row: 3; }
-  .archetype-node-socket:nth-of-type(5) { grid-column: 1; grid-row: 3; }
-  .archetype-node-socket:nth-of-type(6) { grid-column: 1; grid-row: 2; }
-
-  .selected-archetype-display {
-    grid-column: 2;
-    grid-row: 2 / 4;
-    margin-top: 210px;
-    z-index: 2;
-  }
-}
-
+/* =====================================================================
+   RESPONSIVE
+   ===================================================================== */
 @media (max-width: 900px) {
   .archetype-page .hero-section {
     min-height: auto;
@@ -440,9 +572,9 @@
   }
 
   .archetype-page .hero-title {
-    font-size: clamp(2.65rem, 13vw, 4rem);
-    line-height: 0.84;
-    letter-spacing: -0.07em;
+    font-size: clamp(2.4rem, 11vw, 3.6rem);
+    line-height: 0.95;
+    letter-spacing: -0.05em;
   }
 
   .archetype-page .hero-actions {
@@ -453,56 +585,65 @@
     justify-content: space-between;
   }
 
-  .archetype-constellation-rail {
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    display: flex;
+  .story-gap-item {
+    grid-template-columns: 3rem 1fr;
     gap: 1rem;
-    padding-bottom: 0.75rem;
+    padding: 1.5rem 0;
   }
 
-  .archetype-node-socket {
-    min-width: min(78vw, 300px);
-    scroll-snap-align: center;
-    padding-inline: 0.75rem;
+  .story-section-title,
+  .story-section-title-sm {
+    font-size: clamp(2rem, 8vw, 3rem);
+    line-height: 1;
   }
 
-  .selected-archetype-display {
-    margin-top: 1.5rem;
-    min-height: auto;
-    padding: 1.75rem;
+  .archetype-card {
+    grid-template-columns: 3rem 1fr;
+    padding: 1.25rem 1.25rem;
   }
 
-  .layers-sequence-flow {
-    border-left: 1px solid var(--line-structural);
+  .proof-card {
+    grid-template-columns: 1fr;
+    padding: 1.5rem 1.25rem;
   }
 
-  .layer-sequence-step {
-    grid-template-columns: 6.5rem 1fr;
-    gap: 0.5rem 1rem;
+  .proof-payload {
+    grid-column: 1;
   }
 
-  .layer-desc {
-    grid-column: 2;
+  .proof-prompt {
+    padding: 1rem;
   }
 
-  .install-card {
-    padding: 1.5rem;
+  .door-step {
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
   }
 
-  .install-prompt-actions {
-    align-items: stretch;
+  .story-footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .install-prompt-actions .btn {
-    width: 100%;
-    justify-content: center;
+  .story-footer-right {
+    text-align: left;
   }
+}
 
-  .install-code-box {
-    max-height: 34rem;
-    overflow: auto;
-    font-size: 0.72rem;
-    line-height: 1.55;
+@media (min-width: 900px) {
+  .builders-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1100px) {
+  .archetype-rail {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1500px) {
+  .archetype-rail {
+    grid-template-columns: repeat(5, 1fr);
   }
 }

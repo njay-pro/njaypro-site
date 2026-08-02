@@ -11,7 +11,7 @@ vi.mock('../components/P5Field', () => ({
   P5Field: () => <div data-testid="p5-field-mock" />,
 }));
 
-describe('ArchetypePage Component', () => {
+describe('ArchetypePage — story spine', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -24,71 +24,88 @@ describe('ArchetypePage Component', () => {
     );
   };
 
-  it('renders product hero headline and subhead', () => {
+  it('renders the moment hero (one real failure mode, not a slogan)', () => {
     renderComponent();
-    expect(screen.getByText('ONE SUBAGENT IS NOT A SYSTEM.')).toBeInTheDocument();
-    expect(screen.getByText('Give the task the kind of mind it needs.')).toBeInTheDocument();
+    expect(
+      screen.getByText(/You watched one AI answer ten different questions with the same voice\./i),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/We did too\. That is why we built five minds instead\./i)).toBeInTheDocument();
   });
 
-  it('renders correct GitHub repository link', () => {
+  it('renders the five story beats in order', () => {
     renderComponent();
-    const githubLink = screen.getByRole('link', { name: /view on github/i });
-    expect(githubLink).toHaveAttribute('href', 'https://github.com/njay-pro/hermes-archetype-subagent');
+    expect(screen.getByText(/01 · THE GAP/i)).toBeInTheDocument();
+    expect(screen.getByText(/02 · THE SYSTEM/i)).toBeInTheDocument();
+    expect(screen.getByText(/03 · THE PROOF/i)).toBeInTheDocument();
+    expect(screen.getByText(/04 · THE DOOR/i)).toBeInTheDocument();
+    expect(screen.getByText(/FOR BUILDERS · OPTIONAL/i)).toBeInTheDocument();
   });
 
-  it('renders all 5 archetype tabs with correct labels', () => {
+  it('renders the gap thesis sentence', () => {
+    renderComponent();
+    expect(screen.getByText(/Each failure is a missing kind of mind\./i)).toBeInTheDocument();
+  });
+
+  it('renders all 5 archetype tabs with correct ids', () => {
     renderComponent();
     ARCHETYPES_DATA.forEach((arch) => {
       expect(screen.getByRole('tab', { name: new RegExp(arch.id, 'i') })).toBeInTheDocument();
     });
   });
 
+  it('renders the same-prompt proof beats (one per archetype)', () => {
+    renderComponent();
+    ARCHETYPES_DATA.forEach((arch) => {
+      // Each proof card has an archetype label that matches the id
+      expect(screen.getAllByText(arch.id).length).toBeGreaterThan(0);
+    });
+  });
+
+  it('renders the install steps and the GitHub CTA into the repo', () => {
+    renderComponent();
+    expect(screen.getByText(/Clone the v1\.0\.0 tag/i)).toBeInTheDocument();
+    expect(screen.getByText(/Open the repo · v1\.0\.0/i)).toBeInTheDocument();
+  });
+
+  it('links to the real GitHub repo on the door CTA', () => {
+    renderComponent();
+    const cta = screen.getByRole('link', { name: /open the repo · v1\.0\.0/i });
+    expect(cta).toHaveAttribute('href', 'https://github.com/njay-pro/hermes-archetype-subagent');
+  });
+
+  it('links back to the identity graph from the footer', () => {
+    renderComponent();
+    expect(screen.getByRole('link', { name: /back to the identity graph/i })).toHaveAttribute('href', '/');
+  });
+
   it('updates selected archetype when a tab is clicked', () => {
     renderComponent();
     const consultantTab = screen.getByRole('tab', { name: /consultant/i });
     fireEvent.click(consultantTab);
-
     expect(consultantTab).toHaveAttribute('aria-selected', 'true');
-    expect(screen.getAllByText('Resolve ambiguity').length).toBeGreaterThan(0);
-    expect(screen.getByText('Raw nuance, architecture, intent distillation, near-completion synthesis.')).toBeInTheDocument();
   });
 
-  it('supports keyboard navigation (ArrowRight / ArrowLeft / Enter / Space) across tabs and moves DOM focus', () => {
+  it('supports keyboard navigation (ArrowRight / ArrowLeft) across tabs and moves DOM focus', () => {
     renderComponent();
     const defaultTab = screen.getByRole('tab', { name: /long-horizon/i });
     defaultTab.focus();
 
-    // Press ArrowRight to select high-hallucination
     fireEvent.keyDown(defaultTab, { key: 'ArrowRight' });
     const targetTab = screen.getByRole('tab', { name: /high-hallucination/i });
     expect(targetTab).toHaveAttribute('aria-selected', 'true');
     expect(document.activeElement).toBe(targetTab);
 
-    // Press ArrowLeft to go back to long-horizon
     fireEvent.keyDown(targetTab, { key: 'ArrowLeft' });
     expect(defaultTab).toHaveAttribute('aria-selected', 'true');
     expect(document.activeElement).toBe(defaultTab);
   });
 
-  it('copies archetype Python invocation code to clipboard when copy button is clicked', async () => {
+  it('copies the install prompt to clipboard when the builders card copy button is clicked', async () => {
     renderComponent();
-    const copyConfigBtn = screen.getByRole('button', { name: /copy archetype invocation code/i });
-    fireEvent.click(copyConfigBtn);
-
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith(ARCHETYPES_DATA[1].codeExample);
+    const btn = screen.getByRole('button', { name: /copy installation prompt/i });
+    fireEvent.click(btn);
     await waitFor(() => {
-      expect(screen.getByText('✓ Copied')).toBeInTheDocument();
-    });
-  });
-
-  it('copies accurate Hermes install prompt to clipboard when copy agent prompt button is clicked', async () => {
-    renderComponent();
-    const copyCommandBtn = screen.getByRole('button', { name: /copy hermes agent installation prompt/i });
-    fireEvent.click(copyCommandBtn);
-
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith(ACCURATE_INSTALL_PROMPT);
-    await waitFor(() => {
-      expect(screen.getByText('✓ Prompt Copied')).toBeInTheDocument();
+      expect(navigator.clipboard.writeText).toHaveBeenCalledWith(ACCURATE_INSTALL_PROMPT);
     });
   });
 });

@@ -469,6 +469,18 @@ export const ArchetypePage: React.FC<ArchetypePageProps> = ({ isReducedMotion = 
             ))}
           </ol>
 
+          <div className="door-note">
+            <p className="door-note-text">
+              <strong>9router is recommended</strong> for the full archetype experience
+              (internal fallback chains, combo routing, cost-mode switching), but it is
+              <strong>completely optional</strong>. The plugin works with any provider you
+              register in Hermes — point each archetype directly at OpenRouter, Anthropic,
+              Ollama, or any custom provider. If you do not have 9router running, skip
+              the 9router-specific steps and register your preferred models in
+              <code>archetype_model_config.json</code> with your chosen provider.
+            </p>
+          </div>
+
           <div className="door-cta-row">
             <a
               href="https://github.com/njay-pro/hermes-archetype-subagent"

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ThreeSculpture } from '../components/ThreeSculpture';
 import { P5Field } from '../components/P5Field';
@@ -132,7 +132,18 @@ export const ArchetypePage: React.FC<ArchetypePageProps> = ({ isReducedMotion = 
   const [ariaLiveMessage, setAriaLiveMessage] = useState<string>('');
 
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [routeSettled, setRouteSettled] = useState(false);
   const selectedArchetype = ARCHETYPES_DATA[selectedArchetypeIndex];
+
+  useEffect(() => {
+    const settle = () => setRouteSettled(true);
+    window.addEventListener('nodal-route-settled', settle);
+    const frame = window.requestAnimationFrame(settle);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('nodal-route-settled', settle);
+    };
+  }, []);
 
   const routingLayers = [
     {
@@ -251,7 +262,7 @@ export const ArchetypePage: React.FC<ArchetypePageProps> = ({ isReducedMotion = 
   return (
     <div className="archetype-page">
       <P5Field fieldState="RESOLVED" activeSignal={selectedArchetype.signal} isReducedMotion={isReducedMotion} />
-      <ThreeSculpture mode="archetype" activeIndex={selectedArchetypeIndex} isReducedMotion={isReducedMotion} />
+      <ThreeSculpture mode="archetype" activeIndex={selectedArchetypeIndex} isReducedMotion={isReducedMotion} routeSettled={routeSettled} />
 
       {/* Accessible Live Region */}
       <div className="sr-only" aria-live="polite" aria-atomic="true">
@@ -318,6 +329,7 @@ export const ArchetypePage: React.FC<ArchetypePageProps> = ({ isReducedMotion = 
               role="tablist"
               aria-label="Archetype Router Selector"
             >
+              <span className="constellation-hub" aria-hidden="true"><span className="socket mint" /></span>
               {ARCHETYPES_DATA.map((arch, idx) => {
                 const isSelected = idx === selectedArchetypeIndex;
                 return (
@@ -330,7 +342,7 @@ export const ArchetypePage: React.FC<ArchetypePageProps> = ({ isReducedMotion = 
                     aria-selected={isSelected}
                     aria-controls={`panel-${arch.id}`}
                     tabIndex={isSelected ? 0 : -1}
-                    className={`archetype-node-socket panel-interactive ${isSelected ? 'active' : ''}`}
+                    className={`archetype-node-socket ${isSelected ? 'active' : ''}`}
                     onClick={() => handleArchetypeSelect(idx)}
                     onKeyDown={(e) => handleKeyDown(e, idx)}
                   >
@@ -401,25 +413,19 @@ export const ArchetypePage: React.FC<ArchetypePageProps> = ({ isReducedMotion = 
             {routingLayers.map((layer, idx) => {
               const isActive = activeLayerIndex === idx;
               return (
-                <div
+                <button
+                  type="button"
                   key={layer.step}
-                  className={`layer-sequence-step panel-interactive ${isActive ? 'active' : ''}`}
+                  className={`layer-sequence-step ${isActive ? 'active' : ''}`}
                   onClick={() => setActiveLayerIndex(idx)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      setActiveLayerIndex(idx);
-                    }
-                  }}
                 >
                   <div className="step-header">
                     <span className="layer-step font-mono text-muted">{layer.step}</span>
                     <span className={`socket ${isActive ? 'mint' : ''}`} />
                   </div>
-                  <h3 className="layer-title font-display">{layer.title}</h3>
-                  <p className="layer-desc">{layer.desc}</p>
-                </div>
+                  <span className="layer-title font-display">{layer.title}</span>
+                  <span className="layer-desc">{layer.desc}</span>
+                </button>
               );
             })}
           </div>

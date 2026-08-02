@@ -7,6 +7,9 @@ import { describe, it, expect, vi } from 'vitest';
 vi.mock('../components/ThreeSculpture', () => ({
   ThreeSculpture: () => <div data-testid="three-sculpture-mock" />,
 }));
+vi.mock('../components/P5Field', () => ({
+  P5Field: () => <div data-testid="p5-field-mock" />,
+}));
 vi.mock('../components/SignalRail', () => ({
   SignalRail: () => <div data-testid="signal-rail-mock" />,
 }));
@@ -14,7 +17,7 @@ vi.mock('../components/SignalRail', () => ({
 describe('BuilderPage Component', () => {
   const renderComponent = () => {
     return render(
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <BuilderPage />
       </BrowserRouter>
     );
@@ -31,7 +34,7 @@ describe('BuilderPage Component', () => {
     ).toBeInTheDocument();
   });
 
-  it('renders identity graph section with 4 nodes', () => {
+  it('renders identity spatial spine with 4 nodes', () => {
     renderComponent();
     expect(screen.getByText('01 / FABRICATION')).toBeInTheDocument();
     expect(screen.getByText('02 / VISUAL SYSTEMS')).toBeInTheDocument();
@@ -39,7 +42,7 @@ describe('BuilderPage Component', () => {
     expect(screen.getByText('04 / AGENT SYSTEMS')).toBeInTheDocument();
   });
 
-  it('renders manifesto frame statement', () => {
+  it('renders manifesto statement', () => {
     renderComponent();
     expect(
       screen.getByText(
@@ -58,9 +61,12 @@ describe('BuilderPage Component', () => {
     ).toBeInTheDocument();
   });
 
-  it('renders output node product link to archetype', () => {
+  it('renders output node product link to archetype and correct GitHub URL', () => {
     renderComponent();
     expect(screen.getByText('Hermes Archetype Router')).toBeInTheDocument();
     expect(screen.getByText('Follow the signal')).toBeInTheDocument();
+
+    const githubLink = screen.getByRole('link', { name: /view on github/i });
+    expect(githubLink).toHaveAttribute('href', 'https://github.com/njay-pro/hermes-archetype-subagent');
   });
 });

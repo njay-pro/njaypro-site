@@ -17,6 +17,9 @@
 
 .hero-content {
   max-width: 1050px;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 2px 28px var(--bg-void), 0 0 10px var(--bg-void);
 }
 
 .eyebrow {
@@ -136,8 +139,16 @@
 
 .spine-node-content {
   width: calc(50% - 3rem);
-  padding: 2rem 2.25rem;
-  border-radius: var(--radius-panel);
+  padding: 1.25rem 0 1.5rem;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-structural);
+  background: transparent;
+  transition: border-color 220ms ease, transform 220ms ease;
+}
+
+.spine-node-moment.active .spine-node-content {
+  border-top-color: var(--signal-mint);
+  transform: translateY(-4px);
 }
 
 .spine-node-header {
@@ -322,8 +333,21 @@
   }
 
   .hero-title {
-    font-size: clamp(2.4rem, 11vw, 3.8rem);
-    line-height: 0.92;
+    font-size: clamp(2.7rem, 13.2vw, 4rem);
+    line-height: 0.84;
+    letter-spacing: -0.07em;
+  }
+
+  .hero-line.block {
+    white-space: nowrap;
+  }
+
+  .hero-actions {
+    align-items: stretch;
+  }
+
+  .hero-actions .btn {
+    justify-content: space-between;
   }
 
   .spine-wire-svg {
@@ -342,7 +366,7 @@
 
   .spine-node-content {
     width: calc(100% - 2.5rem);
-    padding: 1.5rem;
+    padding: 1.25rem 0 1.5rem;
   }
 
   .manifesto-line {

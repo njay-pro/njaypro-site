@@ -16,6 +16,7 @@ export const RouteTransition: React.FC<RouteTransitionProps> = ({ children }) =>
   });
 
   const [isReducedMotion, setIsReducedMotion] = useState<boolean>(false);
+  const firstRouteRef = useRef(true);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -53,6 +54,10 @@ export const RouteTransition: React.FC<RouteTransitionProps> = ({ children }) =>
   }, []);
 
   useEffect(() => {
+    if (firstRouteRef.current) {
+      firstRouteRef.current = false;
+      return;
+    }
     if (isReducedMotion || !overlayRef.current || !socketRef.current) return;
 
     const { x, y } = clickPosRef.current;
@@ -70,15 +75,24 @@ export const RouteTransition: React.FC<RouteTransitionProps> = ({ children }) =>
       opacity: 1,
     });
 
+    const radius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+    const targetScale = Math.max(1, (radius * 2) / 24);
     const tl = gsap.timeline();
 
     tl.to(socketRef.current, {
-      scale: 85,
-      duration: 0.38,
+      scale: targetScale,
+      duration: 0.28,
+      ease: 'power3.inOut',
+    }).to(socketRef.current, {
+      scale: 0,
+      duration: 0.3,
       ease: 'power3.inOut',
     }).to(overlayRef.current, {
       opacity: 0,
-      duration: 0.22,
+      duration: 0.08,
       ease: 'power2.out',
       onComplete: () => {
         if (overlayRef.current) {

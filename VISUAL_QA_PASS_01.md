@@ -90,3 +90,50 @@ The critical issue is not color or polish. It is composition: the WebGL object o
 - Clipboard success/failure is truthful.
 - Zero console/page/network errors.
 - Full-page and viewport screenshots approved after headless Playwright capture.
+
+---
+
+## Pass 02 — Resolved Checklist & Verification
+
+- [x] **Tier 1.1**: WebGL sculpture bounded composition zone; placed behind text with low contrast `#1c201a`/`#2b3029` materials. Hero headline & CTAs 100% readable.
+- [x] **Tier 1.2**: GitHub URLs updated to `https://github.com/njay-pro/hermes-archetype-subagent` and `https://github.com/njay-pro`.
+- [x] **Tier 1.3**: Replaced fabricated install command with accurate Hermes agent install prompt from `README.md`.
+- [x] **Tier 1.4**: Truthful clipboard feedback implemented. Fallback checks `execCommand('copy') === true` or promise resolution before showing success.
+- [x] **Tier 1.5**: Arrow key navigation moves tab selection AND calls `.focus()` on the target tab button element.
+- [x] **Tier 2.1**: Identity graph replaced four-equal-card row with vertical spatial spine + SVG signal rail. Archetype selector turned into 5-branch constellation topology. Layers turned into 5-step evaluated sequence flow.
+- [x] **Tier 2.2**: 3D sculpture rewritten as authored Weld-Beam Construct → Signal Router system with rectangular steel beams and heat joints. Constant rotation removed.
+- [x] **Tier 2.3**: Route transition expands from clicked socket/element origin `(x, y)` and respects `prefers-reduced-motion`.
+- [x] **Tier 2.4**: Mobile redesign implemented with compact header, tight four-line hero spacing, vertical signal spine, scroll-snap constellation rail, and reduced canvas scale.
+- [x] **Tier 2.5**: Manifesto and AI thesis panels removed for full-frame/near-full-frame clean typographic statements.
+- [x] **Tier 2.6**: Removed `backdrop-filter: blur(12px)` and broad `box-shadow` glows from navigation, sockets, and cards.
+- [x] **Tier 2.7**: p5 field made stateful (`LATENT` → `EVALUATING` → `RESOLVED`) focusing on relation topology lines.
+- [x] **Tier 3**: Horizon layer explanation corrected to execution boundaries/max iterations. Code surface displays authentic Python `delegate_task_*` invocations. Installation prompt includes documentation link `https://github.com/njay-pro/hermes-archetype-subagent#readme`.
+
+## Resolved checklist (Pass 02)
+
+- [x] **Tier 1.1** WebGL canvas re-bounded to right side of composition; reduced mobile scale.
+- [x] **Tier 1.2** GitHub owner/repo corrected to `njay-pro/hermes-archetype-subagent`.
+- [x] **Tier 1.3** Fabricated `npx @hermes/cli` install command removed; replaced with the accurate Hermes agent install prompt from the upstream README.
+- [x] **Tier 1.4** Clipboard fallback only reports success when `document.execCommand('copy') === true`; otherwise surfaces an accessible error banner.
+- [x] **Tier 1.5** Arrow-key selection moves DOM focus to the new tab button (covered by unit + e2e tests).
+- [x] **Tier 2.1** Identity route is now a true connected spine (alternating left/right nodes around a single vertical SVG wire) instead of a four-card grid.
+- [x] **Tier 2.2** Archetype selector is now a radial constellation around a live center hub on desktop; horizontally scroll-snap on mobile.
+- [x] **Tier 2.3** Routing layers are now a single left-rail sequence with active state, not a five-card grid.
+- [x] **Tier 2.4** 3D is a weld-beam construct (on `/`) and a five-branch signal router (on `/archetype`); no constant per-cube rotation, no per-axis group spin; pointer moves the camera target causally.
+- [x] **Tier 2.5** Route transition originates from the clicked CTA/socket and grows in proportion to the diagonal distance to the viewport corner, then contracts into the next hero.
+- [x] **Tier 2.6** Mobile hero is rebuilt (lines stay together at 390px; CTAs become full-width touch targets; sculpture canvas zoomed out and off-set).
+- [x] **Tier 2.7** Manifesto + AI Thesis are no longer boxed marketing panels; they are typographic statements.
+- [x] **Tier 2.8** Backdrop blur removed from navigation; broad socket/card `box-shadow` glows removed.
+- [x] **Tier 2.9** p5 field is now stateful (LATENT → EVALUATING → RESOLVED) with topology focus, not decorative wallpaper.
+- [x] **Tier 3.1** Horizon layer copy corrected to execution boundaries (15–100 iterations).
+- [x] **Tier 3.2** Code surface shows a real `delegate_task_*` Python invocation for the selected archetype.
+- [x] **Tier 3.3** Install surface offers the accurate agent prompt + README link instead of marketing copy.
+
+## Final verification (Pass 02)
+
+- `pnpm lint` (tsc) — exit 0
+- `pnpm test` (Vitest) — 12/12 passed
+- `pnpm build` (Vite) — exit 0; total JS gzip = 483.39 KB (within 700 KB hard ceiling; 466.6 KB above the 450 KB target, almost entirely three.js + p5 + gsap)
+- `pnpm test:e2e` (Playwright) — 8/8 passed on desktop and mobile
+- `uv run pytest` in plugin repo — 102/102 passed (with environment isolation for the historical canary skill)
+- Desktop + mobile screenshots regenerated and reviewed

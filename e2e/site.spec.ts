@@ -30,6 +30,10 @@ test.describe('Njaypro Site E2E Verification', () => {
     // Check Shipped Proof Output
     await expect(page.getByText('Hermes Archetype Router')).toBeVisible();
 
+    // Check GitHub Links are accurate
+    const githubProofLink = page.locator('a[href="https://github.com/njay-pro/hermes-archetype-subagent"]');
+    await expect(githubProofLink).toBeVisible();
+
     // Verify zero uncaught console errors
     expect(consoleErrors).toHaveLength(0);
 
@@ -49,6 +53,7 @@ test.describe('Njaypro Site E2E Verification', () => {
     await expect(page).toHaveURL('/archetype');
     await expect(page.getByText('ONE SUBAGENT IS NOT A SYSTEM.')).toBeVisible();
     await expect(page.getByText('Five Specialist Archetypes')).toBeVisible();
+    await page.waitForTimeout(750);
 
     // Capture screenshot
     const viewportSize = page.viewportSize();
@@ -57,6 +62,13 @@ test.describe('Njaypro Site E2E Verification', () => {
   });
 
   test('/archetype page tab switching and copy buttons work', async ({ page }) => {
+    const runtimeErrors: string[] = [];
+    page.on('pageerror', (error) => runtimeErrors.push(error.message));
+    page.on('console', (msg) => {
+      if (msg.type() === 'error') runtimeErrors.push(msg.text());
+    });
+    page.on('requestfailed', (request) => runtimeErrors.push(`request failed: ${request.url()}`));
+
     await page.goto('/archetype');
 
     // Select consultant tab
@@ -66,13 +78,24 @@ test.describe('Njaypro Site E2E Verification', () => {
     await expect(consultantTab).toHaveAttribute('aria-selected', 'true');
     await expect(page.getByText('Raw nuance, architecture, intent distillation, near-completion synthesis.')).toBeVisible();
 
-    // Click copy config button
-    await page.click('button:has-text("Copy Config")');
-    await expect(page.getByText('✓ Copied').first()).toBeVisible();
+    // Click copy invocation button
+    await page.click('button:has-text("Copy Invocation")');
+    await expect(page.getByText('✓ Copied')).toBeVisible();
 
-    // Click copy command button
-    await page.click('button:has-text("Copy Command")');
-    await expect(page.getByText('✓ Copied').nth(1)).toBeVisible();
+    // Click copy agent prompt button
+    await page.click('button:has-text("Copy Agent Prompt")');
+    await expect(page.getByText('✓ Prompt Copied')).toBeVisible();
+
+    // Exercise keyboard focus movement and all route-local state surfaces.
+    await consultantTab.focus();
+    await page.keyboard.press('ArrowRight');
+    const longHorizonTab = page.getByRole('tab', { name: /long-horizon/i });
+    await expect(longHorizonTab).toBeFocused();
+    await expect(longHorizonTab).toHaveAttribute('aria-selected', 'true');
+
+    await page.getByRole('button', { name: /model/i }).click();
+    await page.getByRole('button', { name: /horizon/i }).click();
+    expect(runtimeErrors).toEqual([]);
   });
 
   test('Check horizontal overflow at 390px mobile viewport', async ({ page }) => {
@@ -84,5 +107,11 @@ test.describe('Njaypro Site E2E Verification', () => {
     });
 
     expect(overflow).toBe(false);
+
+    await page.goto('/archetype');
+    const archetypeOverflow = await page.evaluate(() => {
+      return document.documentElement.scrollWidth > window.innerWidth;
+    });
+    expect(archetypeOverflow).toBe(false);
   });
 });

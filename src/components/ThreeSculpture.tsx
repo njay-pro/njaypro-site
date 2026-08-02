@@ -5,12 +5,14 @@ interface ThreeSculptureProps {
   mode: 'identity' | 'archetype';
   activeIndex?: number; // 0..3 for identity, 0..4 for archetype
   isReducedMotion?: boolean;
+  routeSettled?: boolean;
 }
 
 export const ThreeSculpture: React.FC<ThreeSculptureProps> = ({
   mode,
   activeIndex = 0,
   isReducedMotion = false,
+  routeSettled = true,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const pointerRef = useRef({ x: 0, y: 0 });
@@ -30,10 +32,10 @@ export const ThreeSculpture: React.FC<ThreeSculptureProps> = ({
     // Camera setup with bounded composition zone
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
     // Offset camera position on desktop to keep 3D sculpture in right composition zone, away from hero text
-    const camOffsetX = isMobile ? 0 : 2.5;
-    const camOffsetY = isMobile ? 1.5 : 0;
-    camera.position.set(camOffsetX, camOffsetY, 14);
-    const cameraTarget = new THREE.Vector3(camOffsetX, camOffsetY, 0);
+    const targetOffsetX = isMobile ? 0 : 3.2;
+    const targetOffsetY = isMobile ? -0.7 : 0;
+    camera.position.set(0, 0, isMobile ? 16 : 14);
+    const cameraTarget = new THREE.Vector3(targetOffsetX, targetOffsetY, 0);
 
     // Renderer
     const renderer = new THREE.WebGLRenderer({
@@ -258,8 +260,8 @@ export const ThreeSculpture: React.FC<ThreeSculptureProps> = ({
 
     const render = () => {
       // Causal pointer movement (gently shifts camera target, NO constant spinning)
-      const targetCamX = camOffsetX + pointerRef.current.x * 0.8;
-      const targetCamY = camOffsetY + pointerRef.current.y * 0.8;
+      const targetCamX = targetOffsetX + pointerRef.current.x * 0.45;
+      const targetCamY = targetOffsetY + pointerRef.current.y * 0.45;
       cameraTarget.x += (targetCamX - cameraTarget.x) * 0.05;
       cameraTarget.y += (targetCamY - cameraTarget.y) * 0.05;
       camera.lookAt(cameraTarget);
@@ -356,7 +358,7 @@ export const ThreeSculpture: React.FC<ThreeSculptureProps> = ({
         container.removeChild(renderer.domElement);
       }
     };
-  }, [mode, activeIndex, isReducedMotion]);
+  }, [mode, activeIndex, isReducedMotion, routeSettled]);
 
   return (
     <div
@@ -370,7 +372,8 @@ export const ThreeSculpture: React.FC<ThreeSculptureProps> = ({
         height: '100vh',
         zIndex: 'var(--z-canvas)',
         pointerEvents: 'none',
-        opacity: mode === 'identity' ? 0.75 : 0.65,
+        opacity: routeSettled ? (mode === 'identity' ? 0.42 : 0.48) : 0,
+        transition: 'opacity 320ms ease',
       }}
     />
   );

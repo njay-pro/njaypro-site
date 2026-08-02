@@ -17,6 +17,10 @@ const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
+    const frame = window.requestAnimationFrame(() => {
+      window.dispatchEvent(new CustomEvent('nodal-route-settled'));
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, [pathname]);
   return null;
 };
@@ -81,7 +85,7 @@ export const AppContent: React.FC = () => {
 
 export const App: React.FC = () => {
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <AppContent />
     </Router>
   );

@@ -18,6 +18,13 @@ export const BuilderPage: React.FC<BuilderPageProps> = ({ isReducedMotion = fals
   const [fieldState, setFieldState] = useState<FieldState>('LATENT');
   const heroRef = useRef<HTMLDivElement>(null);
   const nodesRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [routeSettled, setRouteSettled] = useState(true);
+
+  useEffect(() => {
+    const settle = () => setRouteSettled(true);
+    window.addEventListener('nodal-route-settled', settle);
+    return () => window.removeEventListener('nodal-route-settled', settle);
+  }, []);
 
   const identityNodes = [
     {
@@ -114,7 +121,7 @@ export const BuilderPage: React.FC<BuilderPageProps> = ({ isReducedMotion = fals
   return (
     <div className="builder-page">
       <P5Field fieldState={fieldState} activeSignal={identityNodes[activeNodeIndex]?.signal || 'mint'} isReducedMotion={isReducedMotion} />
-      <ThreeSculpture mode="identity" activeIndex={activeNodeIndex} isReducedMotion={isReducedMotion} />
+      <ThreeSculpture mode="identity" activeIndex={activeNodeIndex} isReducedMotion={isReducedMotion} routeSettled={routeSettled} />
 
       <SignalRail
         currentStep={activeNodeIndex}
@@ -154,7 +161,7 @@ export const BuilderPage: React.FC<BuilderPageProps> = ({ isReducedMotion = fals
                 <span>↓</span>
               </button>
 
-              <Link to="/archetype" className="btn btn-ghost">
+              <Link to="/archetype" className="btn btn-ghost" onClick={() => setRouteSettled(false)}>
                 <span>The first public node → Archetype Router</span>
               </Link>
             </div>
@@ -197,7 +204,7 @@ export const BuilderPage: React.FC<BuilderPageProps> = ({ isReducedMotion = fals
                       <span className={`socket ${node.signal} ${isActive ? 'pulse' : ''}`} />
                     </div>
 
-                    <div className="spine-node-content panel-interactive">
+                    <div className="spine-node-content">
                       <div className="spine-node-header">
                         <span className="font-mono text-muted">{node.category}</span>
                         <span className="font-mono text-signal-cyan">NODE_0{index + 1}</span>
@@ -269,7 +276,7 @@ export const BuilderPage: React.FC<BuilderPageProps> = ({ isReducedMotion = fals
             </p>
 
             <div className="output-actions">
-              <Link to="/archetype" className="btn btn-primary">
+              <Link to="/archetype" className="btn btn-primary" onClick={() => setRouteSettled(false)}>
                 <span>Follow the signal</span>
                 <span>→</span>
               </Link>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ThreeSculpture } from '../components/ThreeSculpture';
-import { P5Field } from '../components/P5Field';
+import { KineticCanvas } from '../components/KineticCanvas';
 import './ArchetypePage.css';
 
 /* =====================================================================
@@ -192,7 +191,8 @@ export const ArchetypePage: React.FC<ArchetypePageProps> = ({ isReducedMotion = 
   const [installCopyState, setInstallCopyState] = useState<'idle' | 'copied' | 'failed'>('idle');
 
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const [routeSettled, setRouteSettled] = useState(false);
+  const [routeSettled, setRouteSettled] = useState(true);
+  void routeSettled; void setRouteSettled; // legacy state — ThreeSculpture dep removed
 
   useEffect(() => {
     const settle = () => setRouteSettled(true);
@@ -250,11 +250,11 @@ export const ArchetypePage: React.FC<ArchetypePageProps> = ({ isReducedMotion = 
   };
 
   const selectedArchetype = ARCHETYPES_DATA[selectedArchetypeIndex];
+  void selectedArchetype; // referenced inside the builders section JSX
 
   return (
     <div className="archetype-page">
-      <P5Field fieldState="RESOLVED" activeSignal={selectedArchetype.signal} isReducedMotion={isReducedMotion} />
-      <ThreeSculpture mode="archetype" activeIndex={selectedArchetypeIndex} isReducedMotion={isReducedMotion} routeSettled={routeSettled} />
+      <KineticCanvas isReducedMotion={isReducedMotion} />
 
       <main id="main-content">
         {/* ============================================================
@@ -362,8 +362,9 @@ export const ArchetypePage: React.FC<ArchetypePageProps> = ({ isReducedMotion = 
             </p>
           </header>
 
-          <div className="archetype-rail" role="tablist" aria-label="Archetype selector">
-            {ARCHETYPES_DATA.map((arch, idx) => {
+          <div className="archetype-grid" role="tablist" aria-label="Archetype selector">
+            {/* Cards 1-3: Consultant, Long-Horizon, High-Hallucination */}
+            {ARCHETYPES_DATA.slice(0, 3).map((arch, idx) => {
               const isSelected = idx === selectedArchetypeIndex;
               return (
                 <button
@@ -380,10 +381,12 @@ export const ArchetypePage: React.FC<ArchetypePageProps> = ({ isReducedMotion = 
                   onKeyDown={(e) => handleKeyDown(e, idx)}
                 >
                   <div className="archetype-card-head">
-                    <span className="archetype-glyph font-mono">{arch.glyph}</span>
-                    <span className={`socket ${arch.signal} ${isSelected ? 'pulse' : ''}`} />
+                    <div className="archetype-card-glyph-box">
+                      <span className="archetype-glyph font-mono">{arch.glyph}</span>
+                      <span className={`socket ${arch.signal} ${isSelected ? 'pulse' : ''}`} />
+                    </div>
+                    <span className="archetype-id font-mono">{arch.id}</span>
                   </div>
-                  <span className="archetype-id font-mono">{arch.id}</span>
                   <h3 className="archetype-role font-display">{arch.role}</h3>
                   <p className="archetype-tagline">{arch.tagline}</p>
                   <p className="archetype-when">{arch.when}</p>
@@ -391,6 +394,41 @@ export const ArchetypePage: React.FC<ArchetypePageProps> = ({ isReducedMotion = 
                 </button>
               );
             })}
+
+            {/* Card 4: Dual panel for Speedster (Internal | Internet) */}
+            <div className={`archetype-card archetype-speedster-card ${selectedArchetypeIndex >= 3 ? 'active' : ''}`}>
+              {ARCHETYPES_DATA.slice(3, 5).map((arch, offset) => {
+                const idx = 3 + offset;
+                const isSelected = idx === selectedArchetypeIndex;
+                return (
+                  <button
+                    key={arch.id}
+                    ref={(el) => (tabRefs.current[idx] = el)}
+                    type="button"
+                    role="tab"
+                    id={`tab-${arch.id}`}
+                    aria-selected={isSelected}
+                    aria-controls={`panel-${arch.id}`}
+                    tabIndex={isSelected ? 0 : -1}
+                    className={`speedster-subpanel ${isSelected ? 'active' : ''}`}
+                    onClick={() => handleArchetypeSelect(idx)}
+                    onKeyDown={(e) => handleKeyDown(e, idx)}
+                  >
+                    <div className="archetype-card-head">
+                      <div className="archetype-card-glyph-box">
+                        <span className="archetype-glyph font-mono">{arch.glyph}</span>
+                        <span className={`socket ${arch.signal} ${isSelected ? 'pulse' : ''}`} />
+                      </div>
+                      <span className="archetype-id font-mono">{arch.id}</span>
+                    </div>
+                    <h3 className="archetype-role font-display">{arch.role}</h3>
+                    <p className="archetype-tagline">{arch.tagline}</p>
+                    <p className="archetype-when">{arch.when}</p>
+                    <p className="archetype-counter">{arch.counter}</p>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </section>
 

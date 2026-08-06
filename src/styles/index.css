@@ -1,41 +1,33 @@
 /* ==========================================================================
-   NODAL FOUNDRY — DESIGN SYSTEM CSS TOKENS & BASE STYLES
+   NJAY — DESIGN SYSTEM CSS TOKENS & BASE STYLES
+   Mostly white canvas. Single accent. Quiet motion.
    ========================================================================== */
 
 :root {
-  /* Color Palette */
-  --bg-void: #090A09;
-  --bg-graphite: #111310;
-  --bg-panel: #171A16;
+  /* Canvas */
+  --paper: #F7F5F0;
+  --bone: #EDEAE2;
+  --char: #1A1A1A;
 
-  --text-primary: #F0EEE6;
-  --text-secondary: #A8AAA1;
-  --text-muted: #74786E;
+  /* Signals — semantic, used sparingly */
+  --ink: #1A1A1A;
+  --verdigris: #3F5B4A;
 
-  --signal-amber: #D88C45;
-  --signal-mint: #A8FFB8;
-  --signal-cyan: #65D9E8;
-  --signal-oxide: #873F2D;
-
-  --line-structural: #2B3029;
-  --line-strong: #454B42;
-
-  /* Typography */
-  --font-display: 'Space Grotesk', -apple-system, sans-serif;
-  --font-body: 'Inter', -apple-system, sans-serif;
-  --font-mono: 'IBM Plex Mono', monospace;
+  /* Type */
+  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
 
   /* Radii */
-  --radius-panel: 2px;
   --radius-control: 999px;
 
   /* Spacing */
   --space-unit: 8px;
   --gutter: clamp(20px, 4vw, 64px);
-  --section-space: clamp(6rem, 14vw, 13rem);
-  --max-width: 1600px;
+  --section-space: clamp(8rem, 18vw, 18rem);
+  --max-width: 920px;
 
-  /* Z-Index Layers */
+  /* Z */
   --z-bg: 0;
   --z-canvas: 1;
   --z-content: 10;
@@ -50,192 +42,128 @@
   padding: 0;
 }
 
-html {
-  background-color: var(--bg-void);
-  color: var(--text-primary);
+html, body {
+  background: var(--paper);
+  color: var(--char);
   font-family: var(--font-body);
+  font-weight: 400;
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   min-height: 100vh;
-  overflow-x: hidden;
-  position: relative;
-  background-color: var(--bg-void);
-  color: var(--text-primary);
 }
 
-/* Reduced Motion Override */
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* Focus Indicator Requirements */
-:focus-visible {
-  outline: 2px solid var(--signal-mint);
-  outline-offset: 4px;
-  border-radius: var(--radius-panel);
-}
-
-/* Typography Utilities */
-.font-display {
+/* Type defaults */
+h1, h2, h3, h4 {
   font-family: var(--font-display);
-  font-weight: 520;
-  line-height: 0.88;
-  letter-spacing: -0.065em;
+  font-weight: 300;
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+  color: var(--char);
 }
 
-.font-mono {
-  font-family: var(--font-mono);
-  letter-spacing: 0.02em;
+h1 { font-size: clamp(2.6rem, 8vw, 6.5rem); }
+h2 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h3 { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 400; }
+
+p {
+  font-size: clamp(1rem, 1.2vw, 1.125rem);
+  max-width: 60ch;
 }
 
-.font-body {
-  font-family: var(--font-body);
-}
-
-/* Layout Utilities */
-.container {
-  width: 100%;
-  max-width: var(--max-width);
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: var(--gutter);
-  padding-right: var(--gutter);
-}
-
-.section {
-  padding-top: var(--section-space);
-  padding-bottom: var(--section-space);
-  position: relative;
-}
-
-/* Structural Components */
-.panel {
-  background-color: var(--bg-panel);
-  border: 1px solid var(--line-structural);
-  border-radius: var(--radius-panel);
-}
-
-.panel-interactive {
-  background-color: var(--bg-panel);
-  border: 1px solid var(--line-structural);
-  border-radius: var(--radius-panel);
-  transition: border-color 0.2s ease, background-color 0.2s ease;
-}
-
-.panel-interactive:hover {
-  border-color: var(--line-strong);
-}
-
-.panel-interactive.active {
-  border-color: var(--signal-mint);
-}
-
-/* Buttons and Controls */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: calc(var(--space-unit) * 1.5);
-  padding: 12px 24px;
-  border-radius: var(--radius-control);
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
-  font-weight: 500;
+a {
+  color: var(--char);
   text-decoration: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid var(--line-strong);
-  background: var(--bg-panel);
-  color: var(--text-primary);
+  position: relative;
+  transition: color 0.4s ease;
 }
 
-.btn:hover {
-  border-color: var(--signal-mint);
-  color: var(--signal-mint);
-  background: var(--bg-graphite);
+a:hover {
+  color: var(--verdigris);
 }
 
-.btn-primary {
-  background: var(--signal-mint);
-  color: var(--bg-void);
-  border-color: var(--signal-mint);
-  font-weight: 600;
+/* Selection */
+::selection {
+  background: var(--char);
+  color: var(--paper);
 }
 
-.btn-primary:hover {
-  background: #C4FFCF;
-  color: var(--bg-void);
-  border-color: #C4FFCF;
+/* Layout primitives */
+.canvas-bg {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-canvas);
+  pointer-events: none;
 }
 
-.btn-ghost {
-  background: transparent;
-  border-color: var(--line-structural);
-  color: var(--text-secondary);
+.canvas-bg canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
-.btn-ghost:hover {
-  border-color: var(--line-strong);
-  color: var(--text-primary);
-  background: var(--bg-panel);
+.page {
+  position: relative;
+  z-index: var(--z-content);
+  min-height: 100vh;
+  padding: var(--gutter);
 }
 
-/* Sockets & Nodes */
-.socket {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  display: inline-block;
-  background-color: var(--line-strong);
-  transition: background-color 0.3s ease;
+.center-column {
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
 
-.socket.amber { background-color: var(--signal-amber); }
-.socket.mint { background-color: var(--signal-mint); }
-.socket.cyan { background-color: var(--signal-cyan); }
-.socket.oxide { background-color: var(--signal-oxide); }
+/* Page-load fade */
+@keyframes paper-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
-/* Code Surface */
-.code-panel {
-  background-color: #060706;
-  border: 1px solid var(--line-structural);
-  border-radius: var(--radius-panel);
+.fade-in {
+  animation: paper-fade-in 1.2s ease-out both;
+}
+
+/* Soft hr */
+hr {
+  border: none;
+  border-top: 1px solid var(--bone);
+  margin: var(--gutter) 0;
+}
+
+/* Utility */
+.muted { color: rgba(26, 26, 26, 0.5); }
+.mono { font-family: var(--font-mono); }
+
+/* Quiet button — for nav and contact */
+.btn-quiet {
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  line-height: 1.6;
-  padding: 1.25rem;
-  overflow-x: auto;
-  color: var(--text-primary);
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--char);
+  border-radius: var(--radius-control);
+  color: var(--char);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Scrollbar customization */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+.btn-quiet:hover {
+  background: var(--char);
+  color: var(--paper);
 }
 
-::-webkit-scrollbar-track {
-  background: var(--bg-void);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--line-structural);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--line-strong);
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

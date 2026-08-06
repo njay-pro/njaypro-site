@@ -1,255 +1,123 @@
 ---
 version: alpha
-name: "Nodal Foundry"
-colors:
-  background:
-    void: "#090A09"
-    graphite: "#111310"
-    panel: "#171A16"
-  text:
-    primary: "#F0EEE6"
-    secondary: "#A8AAA1"
-    muted: "#74786E"
-  signal:
-    amber: "#D88C45"
-    mint: "#A8FFB8"
-    cyan: "#65D9E8"
-    oxide: "#873F2D"
-  structural:
-    line: "#2B3029"
-    lineStrong: "#454B42"
-typography:
-  display:
-    fontFamily: "'Space Grotesk', sans-serif"
-    fontWeight: 520
-    lineHeight: 0.88
-    letterSpacing: "-0.065em"
-  body:
-    fontFamily: "Inter, sans-serif"
-    lineHeight: 1.5
-  mono:
-    fontFamily: "'IBM Plex Mono', monospace"
-    letterSpacing: "0.02em"
-rounded:
-  panel: "2px"
-  control: "999px"
-spacing:
-  unit: "8px"
-  section: "clamp(6rem, 14vw, 13rem)"
-components:
-  node:
-    border: "1px solid {colors.structural.line}"
-    activeBorder: "1px solid {colors.signal.mint}"
-  rail:
-    width: "1px"
-    color: "{colors.structural.line}"
+name: "NJAY — White Atelier"
 ---
 
-# Nodal Foundry — Design System
+# NJAY — Design System
 
-## Overview
+## What this site is
 
-This website is not a portfolio container. It is a working self-portrait.
+This is not a portfolio. This is a working self-portrait.
 
-The governing metaphor is a **procedural graph that fabricates outcomes**. Nodes are not decorative bubbles: they expose how Njay connects physical making, visual systems, procedural worlds, and AI orchestration. Welding appears as an origin material — heat, joins, structural tension — but the interface does not cosplay an industrial control panel.
+The governing metaphor is **a canvas that thinks with you**. Mostly white.
+Mostly quiet. The kinetic stuff lives in the negative space — particles
+falling under gravity, a 3D form breathing in ASCII, type that arrives
+in cadence. Not because it's pretty. Because the work Njay makes is
+the same: physical fabrication, visual systems, procedural worlds, AI
+orchestration — each one a discipline, all of them held by the same
+pair of hands.
 
-The visual attitude is **editorial + engineered**:
+The visual attitude is **avant-garde + warm**:
 
-- editorial enough that single sentences can carry a full frame;
-- engineered enough that every line, socket, state, and transition has a job;
-- dark without becoming generic neon cyberpunk;
-- technical without pretending the visitor is reading a dashboard.
+- white enough that a single sentence can hold a full frame;
+- kinetic enough that the page feels alive without being loud;
+- minimal enough that nothing on the page is decoration;
+- precise enough that a 1px line, a 16ms ease, or a 0.05em tracking is
+  the difference between looking intentional and looking generated.
 
 ## Colors
 
-### Base
+### Canvas
 
-- **Void** `#090A09` — page background. Slight green-black, not pure black.
-- **Graphite** `#111310` — secondary surfaces.
-- **Panel** `#171A16` — controls and anchored text panels.
-- **Paper** `#F0EEE6` — primary type. Warm, never clinical white.
+- **Paper** `#F7F5F0` — page background. Warm off-white, never clinical.
+- **Bone** `#EDEAE2` — secondary surfaces (panels, soft borders).
+- **Char** `#1A1A1A` — primary type. Near-black, never pure `#000`.
 
 ### Signals
 
-Signal color is semantic.
+Signal color is semantic. Used sparingly.
 
-- **Amber** `#D88C45` — fabrication, origin, stored heat.
-- **Mint** `#A8FFB8` — evaluated/active system paths.
-- **Cyan** `#65D9E8` — intelligence, network, linked data.
-- **Oxide** `#873F2D` — rare destructive/old-world accent.
-
-Never use all signal colors in one component. Never use them as a background gradient. A signal appears where information moves or where the visitor can act.
-
-### Contrast
-
-Body copy uses warm paper on void or secondary gray on void. Muted gray is never used below 16px for important text. Interactive focus rings use mint against void.
+- **Ink** `#1A1A1A` — type, lines, primary strokes.
+- **Verdigris** `#3F5B4A` — the only chromatic accent. Faded green-brass.
+  Used for: cursor, hover, "active" states. Never for headlines.
 
 ## Typography
 
-### Display — Space Grotesk
+### Display
 
-Display typography behaves like geometry. Large scale, tight tracking, deliberate line breaks. A headline is a composition, not a paragraph.
+- `fontFamily`: `'Editorial Old', 'Times New Roman', serif` *(fallback chain)*
+- **NOTE**: Editorial Old is paid. Production substitutes with a similar
+  high-contrast didone. For the open-source build we use `'Cormorant Garamond'`
+  (Google Fonts) which is a free serif of similar weight.
+- `fontWeight`: 300 (light) for display, 500 for emphasis
+- `lineHeight`: 0.94
+- `letterSpacing`: `-0.035em`
 
-- Desktop hero: `clamp(4.5rem, 11vw, 10.5rem)`
-- Section statements: `clamp(3rem, 7vw, 7.25rem)`
-- Line height: `0.84–0.92`
-- Weight: `500–600`
+### Body
 
-### Body — Inter
+- `fontFamily`: `'Inter', sans-serif`
+- `fontWeight`: 400
+- `lineHeight`: 1.55
 
-Body copy is direct, readable, and conversational. Maximum text measure: `42rem`. Avoid centered paragraphs longer than two lines.
+### Mono (for code/structural elements)
 
-### Interface — IBM Plex Mono
+- `fontFamily`: `'JetBrains Mono', monospace`
+- `fontWeight`: 400
+- `letterSpacing`: `0.01em`
 
-Mono type is reserved for graph labels, routes, state, code, and coordinates. It is not the default body voice.
+## Spacing
 
-## Layout
-
-### Canvas
-
-- Content max width: `1600px`
-- Outer gutter: `clamp(20px, 4vw, 64px)`
-- Baseline spacing unit: `8px`
-- Major section breathing room: `clamp(96px, 14vw, 208px)`
-
-### Composition
-
-The graph creates a spatial spine. Text can sit left, right, or temporarily occupy the center, but the relationship between text and the active graph edge must remain legible.
-
-Asymmetry is intentional. Sections should not collapse into alternating marketing bands or repeated cards.
-
-### Two routes
-
-- `/` is the **identity graph**. Its rhythm is slower, sparse, and autobiographical.
-- `/archetype` is the **working graph**. It is denser, interactive, and product-specific.
-
-The output node at the end of `/` becomes the input node on `/archetype` through a route transition.
-
-## Elevation & Depth
-
-Depth comes from:
-
-1. WebGL parallax and procedural geometry;
-2. line brightness and focus falloff;
-3. type crossing between foreground and graph layers;
-4. opacity planes, not box shadows.
-
-Avoid blurry glass panels. Panels remain mostly opaque and sharp.
-
-## Shapes
-
-- Nodes: sharp rectangles with 2px radius.
-- Sockets: circles, 8–12px, semantic color.
-- Wires: 1px cubic curves with a brighter evaluation pulse.
-- Pills: only for status, route, or a compact action.
-- Decorative circles or blobs: prohibited unless generated by the p5 field with a clear system role.
-
-## Components
-
-### Node
-
-A node exposes one idea and its relationship to the graph. It has:
-
-- eyebrow coordinate or category;
-- one short title;
-- optional one-line payload;
-- one input and/or output socket;
-- idle, available, active, and evaluated states.
-
-### Statement Frame
-
-A full-viewport or near-full-viewport typographic moment. One thought. Motion uses mask/reveal or position; no character soup unless the letters are structurally tied to the graph.
-
-### Signal Rail
-
-A thin route line that tracks progress. It is not a scroll progress bar. It shows which part of the system is currently evaluating.
-
-### Archetype Selector
-
-Five tools form a connected sequence/constellation, not five generic cards. Selecting one updates:
-
-- role statement;
-- ideal task;
-- tool boundary;
-- iteration horizon;
-- live code example;
-- 3D geometry behavior.
-
-### Copy Surface
-
-Install commands and agent prompts use a high-contrast, selectable panel. Copy action must expose a real success state and remain keyboard accessible.
+- **unit**: `8px`
+- **section**: `clamp(8rem, 18vw, 18rem)`
+- **gutter**: `clamp(1.5rem, 4vw, 3rem)`
 
 ## Motion
 
-Motion communicates state change.
+### Principles
 
-### GSAP
+- Every animation is **slow and inevitable** — 800-2000ms durations.
+- Every ease is `power2.out` or `power3.out`. Never linear.
+- Particles never bounce. They drift, fall, settle.
+- The ASCII 3D form rotates **at one fixed cadence** regardless of
+  scroll. It is the heartbeat of the page.
 
-- `ScrollTrigger` evaluates identity nodes as sections enter.
-- Hero type enters on one composed timeline.
-- The graph pulse travels from source to current node.
-- Route transition morphs the final output socket into the plugin page input.
-- Archetype selection uses shared-layout movement and coordinated text/code replacement.
+### Particles (p5.js)
 
-No scroll hijacking. Scrub only when motion and reading share the same timeline.
+- 80-150 particles on canvas, white canvas, dark ink particles
+- Each particle: position, velocity, mass
+- Gravity = `0.04` px/frame² toward bottom
+- On mouse proximity (radius 120px): particles deflect with inverse-
+  square falloff. No repulsion wall, just a soft curl.
+- When a particle hits y > height + 20: respawn at top, random x.
 
-### p5.js
+### ASCII 3D form (Three.js → ASCII shader)
 
-A deterministic 2D field renders low-cost particles and relation lines:
+- Single low-poly mesh (icosahedron, 80 subdivisions).
+- Rendered to a low-res offscreen target (240×135).
+- Sampled per-pixel in shader: each texel maps to one ASCII char
+  from a 12-char ramp ` .,:;ilLtTfFjJnN`.
+- Rotation: `y += 0.003` per frame, `x += 0.001` per frame.
+- Position drifts in a Lissajous: `x = sin(t*0.4)*0.3, y = cos(t*0.3)*0.2`.
 
-- seeded randomness;
-- capped device-pixel ratio;
-- distance checks limited by spatial bins or low particle count;
-- pause when document is hidden;
-- reduced motion = one static render;
-- no friendly errors in production.
+## Layout
 
-The field represents latent possibility before a route is chosen.
+### Grid
 
-### Three.js
+- 12-column, 24px gutter
+- Max content width: 920px (display width for the home statement)
+- Canvas extends edge-to-edge. Type sits in a centered column.
 
-A medium-weight procedural sculpture sits behind/alongside the identity graph:
+### Pages
 
-- instanced geometry only;
-- no GLTF download;
-- physical-looking light with restrained bloom-like color, not postprocessing bloat;
-- adaptive instance count and DPR;
-- pause when offscreen;
-- pointer movement changes camera target, not constant wild rotation.
+| Path | Purpose |
+|---|---|
+| `/` | Home — the statement + kinetic canvas + contact |
+| `/archetype-hermes-subagent` | The plugin landing — sourced from the GitHub README |
+| `/contact` | DM is the door |
 
-The sculpture evolves from rough joined segments on `/` to a precise five-branch router on `/archetype`.
+## What's gone
 
-### Reduced motion
-
-`prefers-reduced-motion` disables scrubbing, continuous rotation, pointer parallax, and particle animation. It must leave a complete, well-composed static page — not an empty canvas.
-
-## Do’s and Don’ts
-
-### Do
-
-- Let one phrase own one frame.
-- Use lines and sockets to explain relationships.
-- Keep physical origin and AI future in the same visual system.
-- Use motion to reveal causality.
-- Make keyboard and touch interactions first-class.
-- Preserve Njay’s direct, non-corporate English voice.
-
-### Don’t
-
-- Do not build a portfolio grid.
-- Do not say “passionate designer,” “crafting experiences,” or “at the intersection of.”
-- Do not use gradient blobs, glass cards, fake terminal noise, or fake metrics.
-- Do not turn welding into a literal sparks-everywhere gimmick.
-- Do not render a 40MB hero model.
-- Do not animate every word because GSAP is present.
-- Do not let code typography dominate the human story.
-
-## Performance budgets
-
-- Initial production JS target: under 450KB gzip where practical; hard ceiling 700KB gzip due Three + GSAP + p5.
-- No single image/video asset over 500KB in initial release.
-- Procedural 3D only; no remote 3D assets.
-- Desktop: target 55–60fps during primary interaction.
-- Mobile: reduce instances/particles by at least 50%; cap DPR to 1.5.
-- All canvases must suspend on hidden tab.
-- Web fonts: only used weights; `display=swap`.
+- Dark backgrounds — gone. Canvas is paper.
+- Amber / cyan / oxide signal palette — gone. Single verdigris accent.
+- "EVALUATING_NODE..." loading text — gone. Just a quiet fade.
+- Industrial panel chrome — gone. No fake dashboards.

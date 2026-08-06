@@ -1,9 +1,9 @@
-.home-page {
+.contact-page {
   position: relative;
   min-height: 100vh;
 }
 
-.home-stage {
+.contact-stage {
   position: relative;
   z-index: 2;
   min-height: 100vh;
@@ -12,40 +12,13 @@
   padding: clamp(1.5rem, 4vw, 3rem);
 }
 
-/* Header — quiet, top corners */
-.home-header {
+.contact-header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
 }
 
-.brand {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  letter-spacing: 0.15em;
-}
-
-.home-nav {
-  display: flex;
-  gap: clamp(1rem, 3vw, 2.5rem);
-}
-
-.nav-link {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  letter-spacing: 0.04em;
-  color: var(--char);
-  opacity: 0.75;
-  transition: opacity 0.4s ease, color 0.4s ease;
-}
-
-.nav-link:hover {
-  opacity: 1;
-  color: var(--verdigris);
-}
-
-/* The statement — sits center-ish, lots of negative space */
-.home-statement {
+.contact-content {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -53,14 +26,9 @@
   align-items: flex-start;
   padding-top: clamp(2rem, 8vw, 6rem);
   padding-bottom: clamp(2rem, 8vw, 6rem);
-  pointer-events: none;
 }
 
-.home-statement > * {
-  pointer-events: auto;
-}
-
-.home-heading {
+.contact-heading {
   font-family: var(--font-display);
   font-weight: 300;
   font-size: clamp(2.4rem, 7vw, 6rem);
@@ -80,7 +48,7 @@
   font-weight: 400;
 }
 
-.home-sub {
+.contact-body {
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 300;
@@ -89,31 +57,42 @@
   color: var(--char);
   opacity: 0.78;
   max-width: 36ch;
-  margin-bottom: clamp(3rem, 6vw, 5rem);
+  margin-bottom: clamp(2rem, 4vw, 3rem);
 }
 
-.home-meta {
-  display: flex;
-  gap: 0.6rem;
+.contact-cta {
+  display: inline-flex;
   align-items: center;
-  font-size: 0.8rem;
-  letter-spacing: 0.06em;
+  gap: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
   color: var(--char);
-  opacity: 0.55;
+  padding: 0.85rem 1.6rem;
+  border: 1px solid var(--char);
+  border-radius: var(--radius-control);
+  transition: background 0.3s ease, color 0.3s ease;
+  align-self: flex-start;
 }
 
-.home-meta .dot {
-  opacity: 0.6;
+.contact-cta:hover {
+  background: var(--char);
+  color: var(--paper);
 }
 
-/* Mobile */
+.cta-arrow {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.contact-cta:hover .cta-arrow {
+  transform: translateX(4px);
+}
+
 @media (max-width: 640px) {
-  .home-header {
+  .contact-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
-  }
-  .home-nav {
-    gap: 1.25rem;
   }
 }

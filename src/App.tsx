@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Navigation } from './components/Navigation';
-import { P5Field } from './components/P5Field';
 import { RouteTransition } from './components/RouteTransition';
 import './styles/index.css';
 
@@ -10,6 +9,9 @@ const BuilderPage = lazy(() =>
 );
 const ArchetypePage = lazy(() =>
   import('./pages/ArchetypePage').then((module) => ({ default: module.ArchetypePage }))
+);
+const ContactPage = lazy(() =>
+  import('./pages/ContactPage').then((module) => ({ default: module.ContactPage }))
 );
 
 // Scroll to top on route change helper
@@ -58,14 +60,12 @@ export const AppContent: React.FC = () => {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
-  const signalColor = location.pathname === '/archetype' ? 'cyan' : 'mint';
+  const signalColor = location.pathname === '/archetype-hermes-subagent' ? 'cyan' : 'mint';
+  void signalColor; // legacy — KineticCanvas handles signal internally now
 
   return (
     <>
       <ScrollToTop />
-      {/* Background relation field */}
-      <P5Field activeSignal={signalColor} isReducedMotion={isReducedMotion} />
-
       {/* Main navigation header */}
       <Navigation />
 
@@ -74,7 +74,8 @@ export const AppContent: React.FC = () => {
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
             <Route path="/" element={<BuilderPage isReducedMotion={isReducedMotion} />} />
-            <Route path="/archetype" element={<ArchetypePage isReducedMotion={isReducedMotion} />} />
+            <Route path="/archetype-hermes-subagent" element={<ArchetypePage isReducedMotion={isReducedMotion} />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="*" element={<BuilderPage isReducedMotion={isReducedMotion} />} />
           </Routes>
         </Suspense>

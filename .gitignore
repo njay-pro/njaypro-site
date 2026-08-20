@@ -9,3 +9,12 @@ playwright-report/
 .env.*
 !.env.example
 e2e-screenshots/
+
+# ESP / firmware build caches
+.esphome/
+.esphome-compile.log
+.platformio/
+.piolibdeps/
+.arduino/
+.ccache/
+managed_components/

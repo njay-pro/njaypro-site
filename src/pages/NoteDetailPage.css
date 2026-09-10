@@ -1,0 +1,177 @@
+.note-detail-page {
+  position: relative;
+  min-height: 100vh;
+}
+
+.note-detail-stage {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  padding: clamp(6rem, 12vw, 9rem) clamp(1.5rem, 4vw, 3rem) clamp(5rem, 10vw, 8rem);
+}
+
+.note-article {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.note-back-nav {
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+.note-back-link {
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  color: var(--char);
+  opacity: 0.65;
+  text-decoration: none;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+.note-back-link:hover {
+  opacity: 1;
+  color: var(--verdigris, #3f5b4a);
+}
+
+.note-detail-header {
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-bottom: 1px solid rgba(26, 26, 26, 0.12);
+  padding-bottom: clamp(1.8rem, 3.5vw, 2.5rem);
+}
+
+.note-detail-meta {
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: var(--verdigris, #3f5b4a);
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.note-detail-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--char);
+  margin-bottom: 0.8rem;
+}
+
+.note-detail-subtitle {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.15rem, 2vw, 1.35rem);
+  line-height: 1.45;
+  color: var(--char);
+  opacity: 0.75;
+}
+
+/* Editorial Body Typography */
+.note-detail-body {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--char);
+  opacity: 0.88;
+}
+
+.note-detail-body p {
+  margin-bottom: 1.6rem;
+}
+
+.note-detail-body h2,
+.note-detail-body h3,
+.note-detail-body h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--char);
+  letter-spacing: -0.02em;
+  margin-top: 2.8rem;
+  margin-bottom: 1rem;
+}
+
+.note-detail-body h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.3rem);
+  line-height: 1.15;
+}
+
+.note-detail-body h3 {
+  font-size: clamp(1.4rem, 2.8vw, 1.8rem);
+  line-height: 1.25;
+}
+
+.note-detail-body h4 {
+  font-size: 1.2rem;
+  line-height: 1.35;
+}
+
+.note-detail-body strong {
+  font-weight: 600;
+  color: var(--char);
+}
+
+.note-detail-body em {
+  font-style: italic;
+}
+
+.note-detail-body hr {
+  border: none;
+  border-top: 1px solid rgba(26, 26, 26, 0.12);
+  margin: 3rem 0;
+}
+
+.note-detail-body ul,
+.note-detail-body ol {
+  margin-bottom: 1.8rem;
+  padding-left: 1.4rem;
+}
+
+.note-detail-body li {
+  margin-bottom: 0.6rem;
+  line-height: 1.7;
+}
+
+.note-detail-body blockquote {
+  border-left: 2px solid var(--verdigris, #3f5b4a);
+  padding-left: 1.2rem;
+  margin: 2rem 0;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.note-detail-footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+}
+
+.note-footer-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(26, 26, 26, 0.12);
+  margin-bottom: 2rem;
+}
+
+.note-footer-meta {
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  color: var(--char);
+  opacity: 0.6;
+  margin-bottom: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.note-footer-back {
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  color: var(--verdigris, #3f5b4a);
+  text-decoration: none;
+  display: inline-block;
+  transition: opacity 0.3s ease;
+}
+
+.note-footer-back:hover {
+  opacity: 0.7;
+}

@@ -1,0 +1,126 @@
+.notes-page {
+  position: relative;
+  min-height: 100vh;
+}
+
+.notes-stage {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  padding: clamp(6rem, 12vw, 10rem) clamp(1.5rem, 4vw, 3rem) clamp(4rem, 8vw, 6rem);
+}
+
+.notes-container {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.notes-header {
+  margin-bottom: clamp(3rem, 6vw, 5rem);
+  border-bottom: 1px solid rgba(26, 26, 26, 0.12);
+  padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.notes-eyebrow {
+  display: block;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  color: var(--verdigris, #3f5b4a);
+  margin-bottom: 0.8rem;
+}
+
+.notes-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: var(--char);
+  margin-bottom: 1.2rem;
+}
+
+.notes-desc {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--char);
+  opacity: 0.75;
+  max-width: 48ch;
+}
+
+.notes-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+
+.note-card {
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+  border-bottom: 1px solid rgba(26, 26, 26, 0.08);
+  transition: transform 0.3s ease;
+}
+
+.note-card:last-child {
+  border-bottom: none;
+}
+
+.note-card:hover {
+  transform: translateX(4px);
+}
+
+.note-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.note-card-meta {
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  color: var(--char);
+  opacity: 0.6;
+  margin-bottom: 0.6rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.note-card-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--char);
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.note-card:hover .note-card-title {
+  color: var(--verdigris, #3f5b4a);
+}
+
+.note-card-subtitle {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--char);
+  opacity: 0.78;
+  margin-bottom: 1rem;
+  max-width: 58ch;
+}
+
+.note-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--verdigris, #3f5b4a);
+  opacity: 0.85;
+}
+
+.note-tag {
+  background: rgba(63, 91, 74, 0.08);
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+}

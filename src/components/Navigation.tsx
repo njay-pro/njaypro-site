@@ -40,7 +40,7 @@ export const Navigation: React.FC = () => {
               `nav-link ${isActive ? 'active' : ''}`
             }
           >
-            notes
+            blog
           </NavLink>
           <NavLink
             to="/contact"

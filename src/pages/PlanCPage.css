@@ -1,0 +1,143 @@
+.plan-c-page {
+  position: relative;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.manifest-stage {
+  position: relative;
+  z-index: 2;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(5rem, 8vh, 6.5rem) clamp(1.5rem, 5vw, 4rem) clamp(2rem, 4vh, 3rem);
+  box-sizing: border-box;
+}
+
+.manifest-rule {
+  width: 100%;
+  height: 1px;
+  background: rgba(26, 26, 26, 0.15);
+  transform-origin: left center;
+}
+
+/* Hero Zone — massive negative space */
+.manifest-hero {
+  flex: 1.2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.manifest-headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2.4rem, 5.5vw, 4.8rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: var(--char);
+}
+
+.manifest-headline em {
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Register Zone — 2-column architectural grid */
+.manifest-register {
+  flex: 0.8;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 6vw, 6rem);
+  padding: clamp(1.5rem, 3vh, 2.5rem) 0;
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.manifest-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.manifest-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--verdigris, #3f5b4a);
+  opacity: 0.85;
+}
+
+.manifest-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+  color: var(--char);
+  opacity: 0.8;
+}
+
+.manifest-status-text {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+  line-height: 1.55;
+  color: var(--char);
+  opacity: 0.75;
+  max-width: 32ch;
+}
+
+/* Action Zone */
+.manifest-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: clamp(1rem, 2vh, 1.6rem);
+}
+
+.manifest-cta-row {
+  display: flex;
+  gap: 1.8rem;
+}
+
+.manifest-btn {
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  color: var(--char);
+  border-bottom: 1px solid rgba(26, 26, 26, 0.3);
+  padding-bottom: 2px;
+  transition: all 0.3s ease;
+}
+
+.manifest-btn:hover {
+  color: var(--verdigris, #3f5b4a);
+  border-bottom-color: var(--verdigris, #3f5b4a);
+}
+
+.manifest-meta {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--char);
+  opacity: 0.5;
+  display: flex;
+  gap: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .manifest-register {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .manifest-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}

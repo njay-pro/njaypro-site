@@ -19,6 +19,12 @@ const NotesPage = lazy(() =>
 const NoteDetailPage = lazy(() =>
   import('./pages/NoteDetailPage').then((module) => ({ default: module.NoteDetailPage }))
 );
+const PlanBPage = lazy(() =>
+  import('./pages/PlanBPage').then((module) => ({ default: module.PlanBPage }))
+);
+const PlanCPage = lazy(() =>
+  import('./pages/PlanCPage').then((module) => ({ default: module.PlanCPage }))
+);
 
 // Scroll to top on route change helper
 const ScrollToTop = () => {
@@ -80,6 +86,9 @@ export const AppContent: React.FC = () => {
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
             <Route path="/" element={<BuilderPage isReducedMotion={isReducedMotion} />} />
+            <Route path="/plan-a" element={<BuilderPage isReducedMotion={isReducedMotion} />} />
+            <Route path="/plan-b" element={<PlanBPage isReducedMotion={isReducedMotion} />} />
+            <Route path="/plan-c" element={<PlanCPage isReducedMotion={isReducedMotion} />} />
             <Route path="/archetype-hermes-subagent" element={<ArchetypePage isReducedMotion={isReducedMotion} />} />
             <Route path="/notes" element={<NotesPage />} />
             <Route path="/notes/:slug" element={<NoteDetailPage />} />

@@ -35,6 +35,22 @@ export const Navigation: React.FC = () => {
             archetype-hermes-subagent
           </NavLink>
           <NavLink
+            to="/plan-b"
+            className={({ isActive }) =>
+              `nav-link ${isActive ? 'active' : ''}`
+            }
+          >
+            plan-b
+          </NavLink>
+          <NavLink
+            to="/plan-c"
+            className={({ isActive }) =>
+              `nav-link ${isActive ? 'active' : ''}`
+            }
+          >
+            plan-c
+          </NavLink>
+          <NavLink
             to="/notes"
             className={({ isActive }) =>
               `nav-link ${isActive ? 'active' : ''}`
